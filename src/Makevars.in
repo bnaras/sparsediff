@@ -29,6 +29,11 @@ ENGINE_OBJECTS = \
   $(patsubst %.c,%.o,$(wildcard $(ENGINE)/src/*/*.c)) \
   $(patsubst %.c,%.o,$(wildcard $(ENGINE)/src/*/*/*.c))
 
-PKG_OBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
+# Package glue: C sources (cblas_shim.c) + C++ sources (sparsediff.cpp and the
+# cpp11-generated cpp11.cpp). The presence of .cpp objects makes R link with the
+# C++ linker, which is what cpp11 needs; the engine .c stay C and interoperate
+# via extern "C".
+PKG_OBJECTS = $(patsubst %.c,%.o,$(wildcard *.c)) \
+              $(patsubst %.cpp,%.o,$(wildcard *.cpp))
 
 OBJECTS = $(PKG_OBJECTS) $(ENGINE_OBJECTS)

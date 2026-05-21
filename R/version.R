@@ -8,5 +8,5 @@
 #' @examples
 #' engine_version()
 engine_version <- function() {
-  .Call(C_engine_version)
+  sd_engine_version()
 }
