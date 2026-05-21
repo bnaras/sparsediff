@@ -1,0 +1,4 @@
+[submodule "src/sparsediffengine"]
+	path = src/sparsediffengine
+	url = git@github.com:bnaras/SparseDiffEngine.git
+	branch = r-pkg

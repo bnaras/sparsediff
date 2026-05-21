@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git.*$
+^src/sparsediffengine/\.git.*$
+^src/sparsediffengine/tests$
+^src/sparsediffengine/docs$
+^src/sparsediffengine/\.github$
+^src/sparsediffengine/\.clang-format$
+^src/sparsediffengine/CMakeLists\.txt$
