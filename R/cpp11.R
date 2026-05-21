@@ -179,3 +179,31 @@ sd_objective_forward <- function(prob, u) {
 sd_gradient <- function(prob) {
   .Call(`_sparsediff_sd_gradient`, prob)
 }
+
+sd_constraint_forward <- function(prob, u) {
+  .Call(`_sparsediff_sd_constraint_forward`, prob, u)
+}
+
+sd_init_jacobian_coo <- function(prob) {
+  invisible(.Call(`_sparsediff_sd_init_jacobian_coo`, prob))
+}
+
+sd_jacobian_sparsity <- function(prob) {
+  .Call(`_sparsediff_sd_jacobian_sparsity`, prob)
+}
+
+sd_jacobian_values <- function(prob) {
+  .Call(`_sparsediff_sd_jacobian_values`, prob)
+}
+
+sd_init_hessian_coo <- function(prob) {
+  invisible(.Call(`_sparsediff_sd_init_hessian_coo`, prob))
+}
+
+sd_hessian_sparsity <- function(prob) {
+  .Call(`_sparsediff_sd_hessian_sparsity`, prob)
+}
+
+sd_hessian_values <- function(prob, obj_w, w) {
+  .Call(`_sparsediff_sd_hessian_values`, prob, obj_w, w)
+}

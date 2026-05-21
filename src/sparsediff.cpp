@@ -35,6 +35,7 @@ extern "C" {
 #endif
 
 using namespace cpp11;
+using namespace cpp11::literals;  // for "name"_nm = ... in list literals
 
 // ---------------------------------------------------------------------------
 //  external-pointer helpers for the opaque engine handles
@@ -220,4 +221,80 @@ doubles sd_gradient(SEXP prob) {
   writable::doubles g(p->n_vars);
   for (int i = 0; i < p->n_vars; i++) g[i] = p->gradient_values[i];
   return g;
+}
+
+[[cpp11::register]]
+doubles sd_constraint_forward(SEXP prob, doubles u) {
+  problem* p = as_problem(prob);
+  std::vector<double> ubuf(u.begin(), u.end());
+  problem_constraint_forward(p, ubuf.data());
+  writable::doubles cv(p->total_constraint_size);
+  for (int k = 0; k < p->total_constraint_size; k++) cv[k] = p->constraint_values[k];
+  return cv;
+}
+
+// ---------------------------------------------------------------------------
+//  sparse derivatives in COO form
+//
+//  Row/column indices are 0-based (engine convention; the higher-level R layer
+//  translates to 1-based). Sparsity is structural and fixed after init; values
+//  must be recomputed (objective_forward / constraint_forward populate node
+//  values first). The constraint Jacobian COO and the lower-triangular Lagrange
+//  Hessian COO mirror CVXPY's diff_engine usage.
+// ---------------------------------------------------------------------------
+static list coo_sparsity(const COO_matrix* coo) {
+  writable::integers rows(coo->nnz), cols(coo->nnz);
+  for (int k = 0; k < coo->nnz; k++) { rows[k] = coo->rows[k]; cols[k] = coo->cols[k]; }
+  return writable::list({"rows"_nm = rows, "cols"_nm = cols,
+                         "nrow"_nm = coo->m, "ncol"_nm = coo->n});
+}
+
+// ---- constraint Jacobian ----
+[[cpp11::register]]
+void sd_init_jacobian_coo(SEXP prob) { problem_init_jacobian_coo(as_problem(prob)); }
+
+[[cpp11::register]]
+list sd_jacobian_sparsity(SEXP prob) {
+  problem* p = as_problem(prob);
+  if (p->jacobian_coo == nullptr) stop("sparsediff: call sd_init_jacobian_coo() first");
+  return coo_sparsity(p->jacobian_coo);
+}
+
+[[cpp11::register]]
+doubles sd_jacobian_values(SEXP prob) {
+  problem* p = as_problem(prob);
+  if (p->jacobian_coo == nullptr) stop("sparsediff: call sd_init_jacobian_coo() first");
+  problem_jacobian(p);  // fills CSR; COO order matches CSR->x order
+  int nnz = p->jacobian_coo->nnz;
+  writable::doubles vals(nnz);
+  for (int k = 0; k < nnz; k++) vals[k] = p->jacobian->x[k];
+  return vals;
+}
+
+// ---- lower-triangular Lagrange Hessian ----
+[[cpp11::register]]
+void sd_init_hessian_coo(SEXP prob) {
+  problem_init_hessian_coo_lower_triangular(as_problem(prob));
+}
+
+[[cpp11::register]]
+list sd_hessian_sparsity(SEXP prob) {
+  problem* p = as_problem(prob);
+  if (p->lagrange_hessian_coo == nullptr) stop("sparsediff: call sd_init_hessian_coo() first");
+  return coo_sparsity(p->lagrange_hessian_coo);
+}
+
+// obj_w scales the objective Hessian; w (length = total constraint size) scales
+// the constraint Hessians: H = obj_w * d2f + sum_i w_i d2g_i.
+[[cpp11::register]]
+doubles sd_hessian_values(SEXP prob, double obj_w, doubles w) {
+  problem* p = as_problem(prob);
+  COO_matrix* coo = p->lagrange_hessian_coo;
+  if (coo == nullptr) stop("sparsediff: call sd_init_hessian_coo() first");
+  std::vector<double> wbuf(w.begin(), w.end());
+  problem_hessian(p, obj_w, wbuf.empty() ? nullptr : wbuf.data());
+  refresh_lower_triangular_coo(coo, p->lagrange_hessian->x);
+  writable::doubles vals(coo->nnz);
+  for (int k = 0; k < coo->nnz; k++) vals[k] = coo->x[k];
+  return vals;
 }

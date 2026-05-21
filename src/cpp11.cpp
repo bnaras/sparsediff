@@ -322,6 +322,57 @@ extern "C" SEXP _sparsediff_sd_gradient(SEXP prob) {
     return cpp11::as_sexp(sd_gradient(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob)));
   END_CPP11
 }
+// sparsediff.cpp
+doubles sd_constraint_forward(SEXP prob, doubles u);
+extern "C" SEXP _sparsediff_sd_constraint_forward(SEXP prob, SEXP u) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_constraint_forward(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<doubles>>(u)));
+  END_CPP11
+}
+// sparsediff.cpp
+void sd_init_jacobian_coo(SEXP prob);
+extern "C" SEXP _sparsediff_sd_init_jacobian_coo(SEXP prob) {
+  BEGIN_CPP11
+    sd_init_jacobian_coo(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob));
+    return R_NilValue;
+  END_CPP11
+}
+// sparsediff.cpp
+list sd_jacobian_sparsity(SEXP prob);
+extern "C" SEXP _sparsediff_sd_jacobian_sparsity(SEXP prob) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_jacobian_sparsity(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob)));
+  END_CPP11
+}
+// sparsediff.cpp
+doubles sd_jacobian_values(SEXP prob);
+extern "C" SEXP _sparsediff_sd_jacobian_values(SEXP prob) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_jacobian_values(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob)));
+  END_CPP11
+}
+// sparsediff.cpp
+void sd_init_hessian_coo(SEXP prob);
+extern "C" SEXP _sparsediff_sd_init_hessian_coo(SEXP prob) {
+  BEGIN_CPP11
+    sd_init_hessian_coo(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob));
+    return R_NilValue;
+  END_CPP11
+}
+// sparsediff.cpp
+list sd_hessian_sparsity(SEXP prob);
+extern "C" SEXP _sparsediff_sd_hessian_sparsity(SEXP prob) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_hessian_sparsity(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob)));
+  END_CPP11
+}
+// sparsediff.cpp
+doubles sd_hessian_values(SEXP prob, double obj_w, doubles w);
+extern "C" SEXP _sparsediff_sd_hessian_values(SEXP prob, SEXP obj_w, SEXP w) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_hessian_values(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<double>>(obj_w), cpp11::as_cpp<cpp11::decay_t<doubles>>(w)));
+  END_CPP11
+}
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
@@ -329,6 +380,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sparsediff_sd_asinh",                  (DL_FUNC) &_sparsediff_sd_asinh,                  1},
     {"_sparsediff_sd_atanh",                  (DL_FUNC) &_sparsediff_sd_atanh,                  1},
     {"_sparsediff_sd_broadcast",              (DL_FUNC) &_sparsediff_sd_broadcast,              3},
+    {"_sparsediff_sd_constraint_forward",     (DL_FUNC) &_sparsediff_sd_constraint_forward,     2},
     {"_sparsediff_sd_cos",                    (DL_FUNC) &_sparsediff_sd_cos,                    1},
     {"_sparsediff_sd_diag_mat",               (DL_FUNC) &_sparsediff_sd_diag_mat,               1},
     {"_sparsediff_sd_diag_vec",               (DL_FUNC) &_sparsediff_sd_diag_vec,               1},
@@ -337,10 +389,16 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sparsediff_sd_entr",                   (DL_FUNC) &_sparsediff_sd_entr,                   1},
     {"_sparsediff_sd_exp",                    (DL_FUNC) &_sparsediff_sd_exp,                    1},
     {"_sparsediff_sd_gradient",               (DL_FUNC) &_sparsediff_sd_gradient,               1},
+    {"_sparsediff_sd_hessian_sparsity",       (DL_FUNC) &_sparsediff_sd_hessian_sparsity,       1},
+    {"_sparsediff_sd_hessian_values",         (DL_FUNC) &_sparsediff_sd_hessian_values,         3},
     {"_sparsediff_sd_hstack",                 (DL_FUNC) &_sparsediff_sd_hstack,                 2},
     {"_sparsediff_sd_index",                  (DL_FUNC) &_sparsediff_sd_index,                  4},
     {"_sparsediff_sd_init_derivatives",       (DL_FUNC) &_sparsediff_sd_init_derivatives,       1},
+    {"_sparsediff_sd_init_hessian_coo",       (DL_FUNC) &_sparsediff_sd_init_hessian_coo,       1},
     {"_sparsediff_sd_init_jacobian",          (DL_FUNC) &_sparsediff_sd_init_jacobian,          1},
+    {"_sparsediff_sd_init_jacobian_coo",      (DL_FUNC) &_sparsediff_sd_init_jacobian_coo,      1},
+    {"_sparsediff_sd_jacobian_sparsity",      (DL_FUNC) &_sparsediff_sd_jacobian_sparsity,      1},
+    {"_sparsediff_sd_jacobian_values",        (DL_FUNC) &_sparsediff_sd_jacobian_values,        1},
     {"_sparsediff_sd_log",                    (DL_FUNC) &_sparsediff_sd_log,                    1},
     {"_sparsediff_sd_logistic",               (DL_FUNC) &_sparsediff_sd_logistic,               1},
     {"_sparsediff_sd_matmul",                 (DL_FUNC) &_sparsediff_sd_matmul,                 2},

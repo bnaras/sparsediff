@@ -11,7 +11,16 @@ export(sd_problem)
 export(sd_init_jacobian)
 export(sd_init_derivatives)
 export(sd_objective_forward)
+export(sd_constraint_forward)
 export(sd_gradient)
+
+# sparse derivatives (COO)
+export(sd_init_jacobian_coo)
+export(sd_jacobian_sparsity)
+export(sd_jacobian_values)
+export(sd_init_hessian_coo)
+export(sd_hessian_sparsity)
+export(sd_hessian_values)
 
 # leaves
 export(sd_variable)
