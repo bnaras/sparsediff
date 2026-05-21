@@ -160,8 +160,52 @@ sd_prod_axis_one <- function(c) {
   .Call(`_sparsediff_sd_prod_axis_one`, c)
 }
 
+sd_parameter <- function(d1, d2, param_id, n_vars, values) {
+  .Call(`_sparsediff_sd_parameter`, d1, d2, param_id, n_vars, values)
+}
+
+sd_scalar_mult <- function(param, child) {
+  .Call(`_sparsediff_sd_scalar_mult`, param, child)
+}
+
+sd_vector_mult <- function(param, child) {
+  .Call(`_sparsediff_sd_vector_mult`, param, child)
+}
+
+sd_convolve <- function(param, child) {
+  .Call(`_sparsediff_sd_convolve`, param, child)
+}
+
+sd_quad_form <- function(child, Qp, Qi, Qx) {
+  .Call(`_sparsediff_sd_quad_form`, child, Qp, Qi, Qx)
+}
+
+sd_left_matmul <- function(child, Ap, Ai, Ax, ncol) {
+  .Call(`_sparsediff_sd_left_matmul`, child, Ap, Ai, Ax, ncol)
+}
+
+sd_right_matmul <- function(child, Ap, Ai, Ax, ncol) {
+  .Call(`_sparsediff_sd_right_matmul`, child, Ap, Ai, Ax, ncol)
+}
+
+sd_left_matmul_dense <- function(param, child, m, n, data) {
+  .Call(`_sparsediff_sd_left_matmul_dense`, param, child, m, n, data)
+}
+
+sd_right_matmul_dense <- function(param, child, m, n, data) {
+  .Call(`_sparsediff_sd_right_matmul_dense`, param, child, m, n, data)
+}
+
 sd_problem <- function(objective, constraints, verbose) {
   .Call(`_sparsediff_sd_problem`, objective, constraints, verbose)
+}
+
+sd_register_params <- function(prob, params) {
+  invisible(.Call(`_sparsediff_sd_register_params`, prob, params))
+}
+
+sd_update_params <- function(prob, theta) {
+  invisible(.Call(`_sparsediff_sd_update_params`, prob, theta))
 }
 
 sd_init_jacobian <- function(prob) {

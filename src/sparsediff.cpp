@@ -74,6 +74,25 @@ static problem* as_problem(SEXP xp) {
   if (p == nullptr) stop("sparsediff: NULL or finalized problem pointer");
   return p;
 }
+static expr* as_expr_or_null(SEXP xp) {
+  return (xp == R_NilValue) ? nullptr : as_expr(xp);
+}
+
+// A CSR_matrix that ALIASES R's vector memory (zero copy). It is valid only for
+// the duration of the call: the engine constructors copy it synchronously (the
+// same one-time copy the Python binding incurs), so the aliased R vectors only
+// need to survive the .Call, which they do. The engine's CSR uses int p/i and
+// double x -- exactly R's INTSXP/REALSXP storage -- so no conversion is needed.
+static CSR_matrix csr_view(SEXP p, SEXP i, SEXP x, int ncol) {
+  CSR_matrix A;
+  A.m = static_cast<int>(Rf_length(p)) - 1;
+  A.n = ncol;
+  A.nnz = static_cast<int>(Rf_length(x));
+  A.p = INTEGER(p);
+  A.i = INTEGER(i);
+  A.x = REAL(x);
+  return A;
+}
 
 // ---------------------------------------------------------------------------
 //  diagnostics
@@ -187,6 +206,55 @@ SEXP sd_vstack(list args, int n_vars) {
 [[cpp11::register]] SEXP sd_prod_axis_one(SEXP c)  { return wrap_expr(new_prod_axis_one(as_expr(c))); }
 
 // ---------------------------------------------------------------------------
+//  parameters / constants and the atoms that consume them
+//  param_id: PARAM_FIXED (-1) for a fixed constant; >= 0 = offset into the theta
+//  parameter vector for an updatable parameter. values has length d1*d2
+//  (column-major) and is copied by the engine.
+// ---------------------------------------------------------------------------
+[[cpp11::register]]
+SEXP sd_parameter(int d1, int d2, int param_id, int n_vars, SEXP values) {
+  return wrap_expr(new_parameter(d1, d2, param_id, n_vars, REAL(values)));
+}
+
+// a (a parameter/constant node) combined with child:
+[[cpp11::register]] SEXP sd_scalar_mult(SEXP param, SEXP child) { return wrap_expr(new_scalar_mult(as_expr(param), as_expr(child))); }
+[[cpp11::register]] SEXP sd_vector_mult(SEXP param, SEXP child) { return wrap_expr(new_vector_mult(as_expr(param), as_expr(child))); }
+[[cpp11::register]] SEXP sd_convolve(SEXP param, SEXP child)    { return wrap_expr(new_convolve(as_expr(param), as_expr(child))); }
+
+// quadratic form  x' Q x  (Q square, full, symmetric; CSR components, zero-copy).
+[[cpp11::register]]
+SEXP sd_quad_form(SEXP child, SEXP Qp, SEXP Qi, SEXP Qx) {
+  int n = static_cast<int>(Rf_length(Qp)) - 1;
+  CSR_matrix Q = csr_view(Qp, Qi, Qx, n);
+  return wrap_expr(new_quad_form(as_expr(child), &Q));  // engine copies Q
+}
+
+// constant sparse-matrix products  A @ f(x)  and  f(x) @ A  (A is m x ncol CSR).
+[[cpp11::register]]
+SEXP sd_left_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, int ncol) {
+  CSR_matrix A = csr_view(Ap, Ai, Ax, ncol);
+  return wrap_expr(new_left_matmul(nullptr, as_expr(child), &A));
+}
+[[cpp11::register]]
+SEXP sd_right_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, int ncol) {
+  CSR_matrix A = csr_view(Ap, Ai, Ax, ncol);
+  return wrap_expr(new_right_matmul(nullptr, as_expr(child), &A));
+}
+
+// dense-matrix products. param = NULL with row-major `data` for a constant
+// matrix; or a parameter node with empty `data` for a parametric matrix.
+[[cpp11::register]]
+SEXP sd_left_matmul_dense(SEXP param, SEXP child, int m, int n, SEXP data) {
+  const double* dptr = (Rf_length(data) == 0) ? nullptr : REAL(data);
+  return wrap_expr(new_left_matmul_dense(as_expr_or_null(param), as_expr(child), m, n, dptr));
+}
+[[cpp11::register]]
+SEXP sd_right_matmul_dense(SEXP param, SEXP child, int m, int n, SEXP data) {
+  const double* dptr = (Rf_length(data) == 0) ? nullptr : REAL(data);
+  return wrap_expr(new_right_matmul_dense(as_expr_or_null(param), as_expr(child), m, n, dptr));
+}
+
+// ---------------------------------------------------------------------------
 //  problem construction & evaluation
 // ---------------------------------------------------------------------------
 [[cpp11::register]]
@@ -202,6 +270,25 @@ SEXP sd_problem(SEXP objective, list constraints, bool verbose) {
       new_problem(as_expr(objective), nc ? cons.data() : nullptr, nc, verbose));
 }
 
+// Register the problem's updatable parameter nodes (each created by
+// sd_parameter with param_id >= 0). The problem keeps weak references; the nodes
+// stay alive through the expression DAG and their R handles.
+[[cpp11::register]]
+void sd_register_params(SEXP prob, list params) {
+  problem* p = as_problem(prob);
+  int n = static_cast<int>(params.size());
+  std::vector<expr*> arr;
+  arr.reserve(n);
+  for (R_xlen_t k = 0; k < params.size(); k++) { SEXP s = params[k]; arr.push_back(as_expr(s)); }
+  problem_register_params(p, n ? arr.data() : nullptr, n);
+}
+
+// Update parameter values from the concatenated theta vector (offsets = param_id).
+[[cpp11::register]]
+void sd_update_params(SEXP prob, SEXP theta) {
+  problem_update_params(as_problem(prob), REAL(theta));
+}
+
 [[cpp11::register]]
 void sd_init_jacobian(SEXP prob) { problem_init_jacobian(as_problem(prob)); }
 
@@ -209,9 +296,8 @@ void sd_init_jacobian(SEXP prob) { problem_init_jacobian(as_problem(prob)); }
 void sd_init_derivatives(SEXP prob) { problem_init_derivatives(as_problem(prob)); }
 
 [[cpp11::register]]
-double sd_objective_forward(SEXP prob, doubles u) {
-  std::vector<double> ubuf(u.begin(), u.end());
-  return problem_objective_forward(as_problem(prob), ubuf.data());
+double sd_objective_forward(SEXP prob, SEXP u) {
+  return problem_objective_forward(as_problem(prob), REAL(u));
 }
 
 [[cpp11::register]]
@@ -224,10 +310,9 @@ doubles sd_gradient(SEXP prob) {
 }
 
 [[cpp11::register]]
-doubles sd_constraint_forward(SEXP prob, doubles u) {
+doubles sd_constraint_forward(SEXP prob, SEXP u) {
   problem* p = as_problem(prob);
-  std::vector<double> ubuf(u.begin(), u.end());
-  problem_constraint_forward(p, ubuf.data());
+  problem_constraint_forward(p, REAL(u));
   writable::doubles cv(p->total_constraint_size);
   for (int k = 0; k < p->total_constraint_size; k++) cv[k] = p->constraint_values[k];
   return cv;

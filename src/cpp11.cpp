@@ -286,10 +286,89 @@ extern "C" SEXP _sparsediff_sd_prod_axis_one(SEXP c) {
   END_CPP11
 }
 // sparsediff.cpp
+SEXP sd_parameter(int d1, int d2, int param_id, int n_vars, SEXP values);
+extern "C" SEXP _sparsediff_sd_parameter(SEXP d1, SEXP d2, SEXP param_id, SEXP n_vars, SEXP values) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_parameter(cpp11::as_cpp<cpp11::decay_t<int>>(d1), cpp11::as_cpp<cpp11::decay_t<int>>(d2), cpp11::as_cpp<cpp11::decay_t<int>>(param_id), cpp11::as_cpp<cpp11::decay_t<int>>(n_vars), cpp11::as_cpp<cpp11::decay_t<SEXP>>(values)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_scalar_mult(SEXP param, SEXP child);
+extern "C" SEXP _sparsediff_sd_scalar_mult(SEXP param, SEXP child) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_scalar_mult(cpp11::as_cpp<cpp11::decay_t<SEXP>>(param), cpp11::as_cpp<cpp11::decay_t<SEXP>>(child)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_vector_mult(SEXP param, SEXP child);
+extern "C" SEXP _sparsediff_sd_vector_mult(SEXP param, SEXP child) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_vector_mult(cpp11::as_cpp<cpp11::decay_t<SEXP>>(param), cpp11::as_cpp<cpp11::decay_t<SEXP>>(child)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_convolve(SEXP param, SEXP child);
+extern "C" SEXP _sparsediff_sd_convolve(SEXP param, SEXP child) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_convolve(cpp11::as_cpp<cpp11::decay_t<SEXP>>(param), cpp11::as_cpp<cpp11::decay_t<SEXP>>(child)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_quad_form(SEXP child, SEXP Qp, SEXP Qi, SEXP Qx);
+extern "C" SEXP _sparsediff_sd_quad_form(SEXP child, SEXP Qp, SEXP Qi, SEXP Qx) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_quad_form(cpp11::as_cpp<cpp11::decay_t<SEXP>>(child), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Qp), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Qi), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Qx)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_left_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, int ncol);
+extern "C" SEXP _sparsediff_sd_left_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, SEXP ncol) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_left_matmul(cpp11::as_cpp<cpp11::decay_t<SEXP>>(child), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Ap), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Ai), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Ax), cpp11::as_cpp<cpp11::decay_t<int>>(ncol)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_right_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, int ncol);
+extern "C" SEXP _sparsediff_sd_right_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, SEXP ncol) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_right_matmul(cpp11::as_cpp<cpp11::decay_t<SEXP>>(child), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Ap), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Ai), cpp11::as_cpp<cpp11::decay_t<SEXP>>(Ax), cpp11::as_cpp<cpp11::decay_t<int>>(ncol)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_left_matmul_dense(SEXP param, SEXP child, int m, int n, SEXP data);
+extern "C" SEXP _sparsediff_sd_left_matmul_dense(SEXP param, SEXP child, SEXP m, SEXP n, SEXP data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_left_matmul_dense(cpp11::as_cpp<cpp11::decay_t<SEXP>>(param), cpp11::as_cpp<cpp11::decay_t<SEXP>>(child), cpp11::as_cpp<cpp11::decay_t<int>>(m), cpp11::as_cpp<cpp11::decay_t<int>>(n), cpp11::as_cpp<cpp11::decay_t<SEXP>>(data)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_right_matmul_dense(SEXP param, SEXP child, int m, int n, SEXP data);
+extern "C" SEXP _sparsediff_sd_right_matmul_dense(SEXP param, SEXP child, SEXP m, SEXP n, SEXP data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_right_matmul_dense(cpp11::as_cpp<cpp11::decay_t<SEXP>>(param), cpp11::as_cpp<cpp11::decay_t<SEXP>>(child), cpp11::as_cpp<cpp11::decay_t<int>>(m), cpp11::as_cpp<cpp11::decay_t<int>>(n), cpp11::as_cpp<cpp11::decay_t<SEXP>>(data)));
+  END_CPP11
+}
+// sparsediff.cpp
 SEXP sd_problem(SEXP objective, list constraints, bool verbose);
 extern "C" SEXP _sparsediff_sd_problem(SEXP objective, SEXP constraints, SEXP verbose) {
   BEGIN_CPP11
     return cpp11::as_sexp(sd_problem(cpp11::as_cpp<cpp11::decay_t<SEXP>>(objective), cpp11::as_cpp<cpp11::decay_t<list>>(constraints), cpp11::as_cpp<cpp11::decay_t<bool>>(verbose)));
+  END_CPP11
+}
+// sparsediff.cpp
+void sd_register_params(SEXP prob, list params);
+extern "C" SEXP _sparsediff_sd_register_params(SEXP prob, SEXP params) {
+  BEGIN_CPP11
+    sd_register_params(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<list>>(params));
+    return R_NilValue;
+  END_CPP11
+}
+// sparsediff.cpp
+void sd_update_params(SEXP prob, SEXP theta);
+extern "C" SEXP _sparsediff_sd_update_params(SEXP prob, SEXP theta) {
+  BEGIN_CPP11
+    sd_update_params(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<SEXP>>(theta));
+    return R_NilValue;
   END_CPP11
 }
 // sparsediff.cpp
@@ -309,10 +388,10 @@ extern "C" SEXP _sparsediff_sd_init_derivatives(SEXP prob) {
   END_CPP11
 }
 // sparsediff.cpp
-double sd_objective_forward(SEXP prob, doubles u);
+double sd_objective_forward(SEXP prob, SEXP u);
 extern "C" SEXP _sparsediff_sd_objective_forward(SEXP prob, SEXP u) {
   BEGIN_CPP11
-    return cpp11::as_sexp(sd_objective_forward(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<doubles>>(u)));
+    return cpp11::as_sexp(sd_objective_forward(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<SEXP>>(u)));
   END_CPP11
 }
 // sparsediff.cpp
@@ -323,10 +402,10 @@ extern "C" SEXP _sparsediff_sd_gradient(SEXP prob) {
   END_CPP11
 }
 // sparsediff.cpp
-doubles sd_constraint_forward(SEXP prob, doubles u);
+doubles sd_constraint_forward(SEXP prob, SEXP u);
 extern "C" SEXP _sparsediff_sd_constraint_forward(SEXP prob, SEXP u) {
   BEGIN_CPP11
-    return cpp11::as_sexp(sd_constraint_forward(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<doubles>>(u)));
+    return cpp11::as_sexp(sd_constraint_forward(cpp11::as_cpp<cpp11::decay_t<SEXP>>(prob), cpp11::as_cpp<cpp11::decay_t<SEXP>>(u)));
   END_CPP11
 }
 // sparsediff.cpp
@@ -381,6 +460,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sparsediff_sd_atanh",                  (DL_FUNC) &_sparsediff_sd_atanh,                  1},
     {"_sparsediff_sd_broadcast",              (DL_FUNC) &_sparsediff_sd_broadcast,              3},
     {"_sparsediff_sd_constraint_forward",     (DL_FUNC) &_sparsediff_sd_constraint_forward,     2},
+    {"_sparsediff_sd_convolve",               (DL_FUNC) &_sparsediff_sd_convolve,               2},
     {"_sparsediff_sd_cos",                    (DL_FUNC) &_sparsediff_sd_cos,                    1},
     {"_sparsediff_sd_diag_mat",               (DL_FUNC) &_sparsediff_sd_diag_mat,               1},
     {"_sparsediff_sd_diag_vec",               (DL_FUNC) &_sparsediff_sd_diag_vec,               1},
@@ -399,23 +479,31 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sparsediff_sd_init_jacobian_coo",      (DL_FUNC) &_sparsediff_sd_init_jacobian_coo,      1},
     {"_sparsediff_sd_jacobian_sparsity",      (DL_FUNC) &_sparsediff_sd_jacobian_sparsity,      1},
     {"_sparsediff_sd_jacobian_values",        (DL_FUNC) &_sparsediff_sd_jacobian_values,        1},
+    {"_sparsediff_sd_left_matmul",            (DL_FUNC) &_sparsediff_sd_left_matmul,            5},
+    {"_sparsediff_sd_left_matmul_dense",      (DL_FUNC) &_sparsediff_sd_left_matmul_dense,      5},
     {"_sparsediff_sd_log",                    (DL_FUNC) &_sparsediff_sd_log,                    1},
     {"_sparsediff_sd_logistic",               (DL_FUNC) &_sparsediff_sd_logistic,               1},
     {"_sparsediff_sd_matmul",                 (DL_FUNC) &_sparsediff_sd_matmul,                 2},
     {"_sparsediff_sd_neg",                    (DL_FUNC) &_sparsediff_sd_neg,                    1},
     {"_sparsediff_sd_normal_cdf",             (DL_FUNC) &_sparsediff_sd_normal_cdf,             1},
     {"_sparsediff_sd_objective_forward",      (DL_FUNC) &_sparsediff_sd_objective_forward,      2},
+    {"_sparsediff_sd_parameter",              (DL_FUNC) &_sparsediff_sd_parameter,              5},
     {"_sparsediff_sd_power",                  (DL_FUNC) &_sparsediff_sd_power,                  2},
     {"_sparsediff_sd_problem",                (DL_FUNC) &_sparsediff_sd_problem,                3},
     {"_sparsediff_sd_prod",                   (DL_FUNC) &_sparsediff_sd_prod,                   1},
     {"_sparsediff_sd_prod_axis_one",          (DL_FUNC) &_sparsediff_sd_prod_axis_one,          1},
     {"_sparsediff_sd_prod_axis_zero",         (DL_FUNC) &_sparsediff_sd_prod_axis_zero,         1},
     {"_sparsediff_sd_promote",                (DL_FUNC) &_sparsediff_sd_promote,                3},
+    {"_sparsediff_sd_quad_form",              (DL_FUNC) &_sparsediff_sd_quad_form,              4},
     {"_sparsediff_sd_quad_over_lin",          (DL_FUNC) &_sparsediff_sd_quad_over_lin,          2},
+    {"_sparsediff_sd_register_params",        (DL_FUNC) &_sparsediff_sd_register_params,        2},
     {"_sparsediff_sd_rel_entr",               (DL_FUNC) &_sparsediff_sd_rel_entr,               2},
     {"_sparsediff_sd_rel_entr_first_scalar",  (DL_FUNC) &_sparsediff_sd_rel_entr_first_scalar,  2},
     {"_sparsediff_sd_rel_entr_second_scalar", (DL_FUNC) &_sparsediff_sd_rel_entr_second_scalar, 2},
     {"_sparsediff_sd_reshape",                (DL_FUNC) &_sparsediff_sd_reshape,                3},
+    {"_sparsediff_sd_right_matmul",           (DL_FUNC) &_sparsediff_sd_right_matmul,           5},
+    {"_sparsediff_sd_right_matmul_dense",     (DL_FUNC) &_sparsediff_sd_right_matmul_dense,     5},
+    {"_sparsediff_sd_scalar_mult",            (DL_FUNC) &_sparsediff_sd_scalar_mult,            2},
     {"_sparsediff_sd_selftest_dgemm",         (DL_FUNC) &_sparsediff_sd_selftest_dgemm,         0},
     {"_sparsediff_sd_sin",                    (DL_FUNC) &_sparsediff_sd_sin,                    1},
     {"_sparsediff_sd_sinh",                   (DL_FUNC) &_sparsediff_sd_sinh,                   1},
@@ -424,8 +512,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sparsediff_sd_tanh",                   (DL_FUNC) &_sparsediff_sd_tanh,                   1},
     {"_sparsediff_sd_trace",                  (DL_FUNC) &_sparsediff_sd_trace,                  1},
     {"_sparsediff_sd_transpose",              (DL_FUNC) &_sparsediff_sd_transpose,              1},
+    {"_sparsediff_sd_update_params",          (DL_FUNC) &_sparsediff_sd_update_params,          2},
     {"_sparsediff_sd_upper_tri",              (DL_FUNC) &_sparsediff_sd_upper_tri,              1},
     {"_sparsediff_sd_variable",               (DL_FUNC) &_sparsediff_sd_variable,               4},
+    {"_sparsediff_sd_vector_mult",            (DL_FUNC) &_sparsediff_sd_vector_mult,            2},
     {"_sparsediff_sd_vstack",                 (DL_FUNC) &_sparsediff_sd_vstack,                 2},
     {"_sparsediff_sd_xexp",                   (DL_FUNC) &_sparsediff_sd_xexp,                   1},
     {NULL, NULL, 0}
