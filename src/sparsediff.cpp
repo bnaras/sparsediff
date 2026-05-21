@@ -20,9 +20,13 @@
 #include <vector>
 
 extern "C" {
-#include "problem.h"                      // pulls in expr.h
-#include "atoms/affine.h"                 // new_variable, new_add, new_neg, new_sum
-#include "atoms/elementwise_full_dom.h"   // new_exp
+#include "problem.h"                            // pulls in expr.h
+#include "atoms/affine.h"                       // variable, add, neg, sum, shape ops
+#include "atoms/elementwise_full_dom.h"         // exp, sin, cos, ... power
+#include "atoms/elementwise_restricted_dom.h"   // log, entr, atanh, tan
+#include "atoms/bivariate_full_dom.h"           // elementwise_mult, matmul
+#include "atoms/bivariate_restricted_dom.h"     // quad_over_lin, rel_entr*
+#include "atoms/non_elementwise_full_dom.h"     // prod, prod_axis_*, quad_form
 }
 #include "sparsediff_cblas.h"             // self-guarded extern "C"
 
@@ -115,6 +119,71 @@ SEXP sd_add(SEXP left, SEXP right) {
 SEXP sd_sum(SEXP child, int axis) {
   return wrap_expr(new_sum(as_expr(child), axis));
 }
+
+// ---- elementwise, full domain (unary) ----
+[[cpp11::register]] SEXP sd_sin(SEXP c)        { return wrap_expr(new_sin(as_expr(c))); }
+[[cpp11::register]] SEXP sd_cos(SEXP c)        { return wrap_expr(new_cos(as_expr(c))); }
+[[cpp11::register]] SEXP sd_sinh(SEXP c)       { return wrap_expr(new_sinh(as_expr(c))); }
+[[cpp11::register]] SEXP sd_tanh(SEXP c)       { return wrap_expr(new_tanh(as_expr(c))); }
+[[cpp11::register]] SEXP sd_asinh(SEXP c)      { return wrap_expr(new_asinh(as_expr(c))); }
+[[cpp11::register]] SEXP sd_logistic(SEXP c)   { return wrap_expr(new_logistic(as_expr(c))); }
+[[cpp11::register]] SEXP sd_xexp(SEXP c)       { return wrap_expr(new_xexp(as_expr(c))); }
+[[cpp11::register]] SEXP sd_normal_cdf(SEXP c) { return wrap_expr(new_normal_cdf(as_expr(c))); }
+[[cpp11::register]] SEXP sd_power(SEXP c, double p) { return wrap_expr(new_power(as_expr(c), p)); }
+
+// ---- elementwise, restricted domain (unary) ----
+[[cpp11::register]] SEXP sd_log(SEXP c)   { return wrap_expr(new_log(as_expr(c))); }
+[[cpp11::register]] SEXP sd_entr(SEXP c)  { return wrap_expr(new_entr(as_expr(c))); }
+[[cpp11::register]] SEXP sd_atanh(SEXP c) { return wrap_expr(new_atanh(as_expr(c))); }
+[[cpp11::register]] SEXP sd_tan(SEXP c)   { return wrap_expr(new_tan(as_expr(c))); }
+
+// ---- affine: shape / structural ----
+[[cpp11::register]] SEXP sd_trace(SEXP c)     { return wrap_expr(new_trace(as_expr(c))); }
+[[cpp11::register]] SEXP sd_transpose(SEXP c) { return wrap_expr(new_transpose(as_expr(c))); }
+[[cpp11::register]] SEXP sd_diag_vec(SEXP c)  { return wrap_expr(new_diag_vec(as_expr(c))); }
+[[cpp11::register]] SEXP sd_diag_mat(SEXP c)  { return wrap_expr(new_diag_mat(as_expr(c))); }
+[[cpp11::register]] SEXP sd_upper_tri(SEXP c) { return wrap_expr(new_upper_tri(as_expr(c))); }
+[[cpp11::register]] SEXP sd_promote(SEXP c, int d1, int d2)   { return wrap_expr(new_promote(as_expr(c), d1, d2)); }
+[[cpp11::register]] SEXP sd_reshape(SEXP c, int d1, int d2)   { return wrap_expr(new_reshape(as_expr(c), d1, d2)); }
+[[cpp11::register]] SEXP sd_broadcast(SEXP c, int d1, int d2) { return wrap_expr(new_broadcast(as_expr(c), d1, d2)); }
+
+// indices are 0-based offsets into the (column-major) flattened child.
+[[cpp11::register]]
+SEXP sd_index(SEXP child, int d1, int d2, integers indices) {
+  std::vector<int> idx(indices.begin(), indices.end());
+  return wrap_expr(new_index(as_expr(child), d1, d2, idx.data(),
+                             static_cast<int>(idx.size())));
+}
+
+[[cpp11::register]]
+SEXP sd_hstack(list args, int n_vars) {
+  std::vector<expr*> a;
+  a.reserve(args.size());
+  for (R_xlen_t i = 0; i < args.size(); i++) { SEXP s = args[i]; a.push_back(as_expr(s)); }
+  return wrap_expr(new_hstack(a.data(), static_cast<int>(a.size()), n_vars));
+}
+[[cpp11::register]]
+SEXP sd_vstack(list args, int n_vars) {
+  std::vector<expr*> a;
+  a.reserve(args.size());
+  for (R_xlen_t i = 0; i < args.size(); i++) { SEXP s = args[i]; a.push_back(as_expr(s)); }
+  return wrap_expr(new_vstack(a.data(), static_cast<int>(a.size()), n_vars));
+}
+
+// ---- bivariate, full domain ----
+[[cpp11::register]] SEXP sd_elementwise_mult(SEXP l, SEXP r) { return wrap_expr(new_elementwise_mult(as_expr(l), as_expr(r))); }
+[[cpp11::register]] SEXP sd_matmul(SEXP x, SEXP y)           { return wrap_expr(new_matmul(as_expr(x), as_expr(y))); }
+
+// ---- bivariate, restricted domain ----
+[[cpp11::register]] SEXP sd_quad_over_lin(SEXP l, SEXP r)          { return wrap_expr(new_quad_over_lin(as_expr(l), as_expr(r))); }
+[[cpp11::register]] SEXP sd_rel_entr(SEXP l, SEXP r)               { return wrap_expr(new_rel_entr_vector_args(as_expr(l), as_expr(r))); }
+[[cpp11::register]] SEXP sd_rel_entr_first_scalar(SEXP l, SEXP r)  { return wrap_expr(new_rel_entr_first_arg_scalar(as_expr(l), as_expr(r))); }
+[[cpp11::register]] SEXP sd_rel_entr_second_scalar(SEXP l, SEXP r) { return wrap_expr(new_rel_entr_second_arg_scalar(as_expr(l), as_expr(r))); }
+
+// ---- non-elementwise, full domain ----
+[[cpp11::register]] SEXP sd_prod(SEXP c)           { return wrap_expr(new_prod(as_expr(c))); }
+[[cpp11::register]] SEXP sd_prod_axis_zero(SEXP c) { return wrap_expr(new_prod_axis_zero(as_expr(c))); }
+[[cpp11::register]] SEXP sd_prod_axis_one(SEXP c)  { return wrap_expr(new_prod_axis_one(as_expr(c))); }
 
 // ---------------------------------------------------------------------------
 //  problem construction & evaluation

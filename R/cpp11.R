@@ -28,6 +28,138 @@ sd_sum <- function(child, axis) {
   .Call(`_sparsediff_sd_sum`, child, axis)
 }
 
+sd_sin <- function(c) {
+  .Call(`_sparsediff_sd_sin`, c)
+}
+
+sd_cos <- function(c) {
+  .Call(`_sparsediff_sd_cos`, c)
+}
+
+sd_sinh <- function(c) {
+  .Call(`_sparsediff_sd_sinh`, c)
+}
+
+sd_tanh <- function(c) {
+  .Call(`_sparsediff_sd_tanh`, c)
+}
+
+sd_asinh <- function(c) {
+  .Call(`_sparsediff_sd_asinh`, c)
+}
+
+sd_logistic <- function(c) {
+  .Call(`_sparsediff_sd_logistic`, c)
+}
+
+sd_xexp <- function(c) {
+  .Call(`_sparsediff_sd_xexp`, c)
+}
+
+sd_normal_cdf <- function(c) {
+  .Call(`_sparsediff_sd_normal_cdf`, c)
+}
+
+sd_power <- function(c, p) {
+  .Call(`_sparsediff_sd_power`, c, p)
+}
+
+sd_log <- function(c) {
+  .Call(`_sparsediff_sd_log`, c)
+}
+
+sd_entr <- function(c) {
+  .Call(`_sparsediff_sd_entr`, c)
+}
+
+sd_atanh <- function(c) {
+  .Call(`_sparsediff_sd_atanh`, c)
+}
+
+sd_tan <- function(c) {
+  .Call(`_sparsediff_sd_tan`, c)
+}
+
+sd_trace <- function(c) {
+  .Call(`_sparsediff_sd_trace`, c)
+}
+
+sd_transpose <- function(c) {
+  .Call(`_sparsediff_sd_transpose`, c)
+}
+
+sd_diag_vec <- function(c) {
+  .Call(`_sparsediff_sd_diag_vec`, c)
+}
+
+sd_diag_mat <- function(c) {
+  .Call(`_sparsediff_sd_diag_mat`, c)
+}
+
+sd_upper_tri <- function(c) {
+  .Call(`_sparsediff_sd_upper_tri`, c)
+}
+
+sd_promote <- function(c, d1, d2) {
+  .Call(`_sparsediff_sd_promote`, c, d1, d2)
+}
+
+sd_reshape <- function(c, d1, d2) {
+  .Call(`_sparsediff_sd_reshape`, c, d1, d2)
+}
+
+sd_broadcast <- function(c, d1, d2) {
+  .Call(`_sparsediff_sd_broadcast`, c, d1, d2)
+}
+
+sd_index <- function(child, d1, d2, indices) {
+  .Call(`_sparsediff_sd_index`, child, d1, d2, indices)
+}
+
+sd_hstack <- function(args, n_vars) {
+  .Call(`_sparsediff_sd_hstack`, args, n_vars)
+}
+
+sd_vstack <- function(args, n_vars) {
+  .Call(`_sparsediff_sd_vstack`, args, n_vars)
+}
+
+sd_elementwise_mult <- function(l, r) {
+  .Call(`_sparsediff_sd_elementwise_mult`, l, r)
+}
+
+sd_matmul <- function(x, y) {
+  .Call(`_sparsediff_sd_matmul`, x, y)
+}
+
+sd_quad_over_lin <- function(l, r) {
+  .Call(`_sparsediff_sd_quad_over_lin`, l, r)
+}
+
+sd_rel_entr <- function(l, r) {
+  .Call(`_sparsediff_sd_rel_entr`, l, r)
+}
+
+sd_rel_entr_first_scalar <- function(l, r) {
+  .Call(`_sparsediff_sd_rel_entr_first_scalar`, l, r)
+}
+
+sd_rel_entr_second_scalar <- function(l, r) {
+  .Call(`_sparsediff_sd_rel_entr_second_scalar`, l, r)
+}
+
+sd_prod <- function(c) {
+  .Call(`_sparsediff_sd_prod`, c)
+}
+
+sd_prod_axis_zero <- function(c) {
+  .Call(`_sparsediff_sd_prod_axis_zero`, c)
+}
+
+sd_prod_axis_one <- function(c) {
+  .Call(`_sparsediff_sd_prod_axis_one`, c)
+}
+
 sd_problem <- function(objective, constraints, verbose) {
   .Call(`_sparsediff_sd_problem`, objective, constraints, verbose)
 }

@@ -55,6 +55,237 @@ extern "C" SEXP _sparsediff_sd_sum(SEXP child, SEXP axis) {
   END_CPP11
 }
 // sparsediff.cpp
+SEXP sd_sin(SEXP c);
+extern "C" SEXP _sparsediff_sd_sin(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_sin(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_cos(SEXP c);
+extern "C" SEXP _sparsediff_sd_cos(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_cos(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_sinh(SEXP c);
+extern "C" SEXP _sparsediff_sd_sinh(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_sinh(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_tanh(SEXP c);
+extern "C" SEXP _sparsediff_sd_tanh(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_tanh(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_asinh(SEXP c);
+extern "C" SEXP _sparsediff_sd_asinh(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_asinh(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_logistic(SEXP c);
+extern "C" SEXP _sparsediff_sd_logistic(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_logistic(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_xexp(SEXP c);
+extern "C" SEXP _sparsediff_sd_xexp(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_xexp(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_normal_cdf(SEXP c);
+extern "C" SEXP _sparsediff_sd_normal_cdf(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_normal_cdf(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_power(SEXP c, double p);
+extern "C" SEXP _sparsediff_sd_power(SEXP c, SEXP p) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_power(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c), cpp11::as_cpp<cpp11::decay_t<double>>(p)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_log(SEXP c);
+extern "C" SEXP _sparsediff_sd_log(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_log(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_entr(SEXP c);
+extern "C" SEXP _sparsediff_sd_entr(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_entr(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_atanh(SEXP c);
+extern "C" SEXP _sparsediff_sd_atanh(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_atanh(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_tan(SEXP c);
+extern "C" SEXP _sparsediff_sd_tan(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_tan(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_trace(SEXP c);
+extern "C" SEXP _sparsediff_sd_trace(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_trace(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_transpose(SEXP c);
+extern "C" SEXP _sparsediff_sd_transpose(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_transpose(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_diag_vec(SEXP c);
+extern "C" SEXP _sparsediff_sd_diag_vec(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_diag_vec(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_diag_mat(SEXP c);
+extern "C" SEXP _sparsediff_sd_diag_mat(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_diag_mat(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_upper_tri(SEXP c);
+extern "C" SEXP _sparsediff_sd_upper_tri(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_upper_tri(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_promote(SEXP c, int d1, int d2);
+extern "C" SEXP _sparsediff_sd_promote(SEXP c, SEXP d1, SEXP d2) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_promote(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c), cpp11::as_cpp<cpp11::decay_t<int>>(d1), cpp11::as_cpp<cpp11::decay_t<int>>(d2)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_reshape(SEXP c, int d1, int d2);
+extern "C" SEXP _sparsediff_sd_reshape(SEXP c, SEXP d1, SEXP d2) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_reshape(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c), cpp11::as_cpp<cpp11::decay_t<int>>(d1), cpp11::as_cpp<cpp11::decay_t<int>>(d2)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_broadcast(SEXP c, int d1, int d2);
+extern "C" SEXP _sparsediff_sd_broadcast(SEXP c, SEXP d1, SEXP d2) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_broadcast(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c), cpp11::as_cpp<cpp11::decay_t<int>>(d1), cpp11::as_cpp<cpp11::decay_t<int>>(d2)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_index(SEXP child, int d1, int d2, integers indices);
+extern "C" SEXP _sparsediff_sd_index(SEXP child, SEXP d1, SEXP d2, SEXP indices) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_index(cpp11::as_cpp<cpp11::decay_t<SEXP>>(child), cpp11::as_cpp<cpp11::decay_t<int>>(d1), cpp11::as_cpp<cpp11::decay_t<int>>(d2), cpp11::as_cpp<cpp11::decay_t<integers>>(indices)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_hstack(list args, int n_vars);
+extern "C" SEXP _sparsediff_sd_hstack(SEXP args, SEXP n_vars) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_hstack(cpp11::as_cpp<cpp11::decay_t<list>>(args), cpp11::as_cpp<cpp11::decay_t<int>>(n_vars)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_vstack(list args, int n_vars);
+extern "C" SEXP _sparsediff_sd_vstack(SEXP args, SEXP n_vars) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_vstack(cpp11::as_cpp<cpp11::decay_t<list>>(args), cpp11::as_cpp<cpp11::decay_t<int>>(n_vars)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_elementwise_mult(SEXP l, SEXP r);
+extern "C" SEXP _sparsediff_sd_elementwise_mult(SEXP l, SEXP r) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_elementwise_mult(cpp11::as_cpp<cpp11::decay_t<SEXP>>(l), cpp11::as_cpp<cpp11::decay_t<SEXP>>(r)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_matmul(SEXP x, SEXP y);
+extern "C" SEXP _sparsediff_sd_matmul(SEXP x, SEXP y) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_matmul(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_quad_over_lin(SEXP l, SEXP r);
+extern "C" SEXP _sparsediff_sd_quad_over_lin(SEXP l, SEXP r) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_quad_over_lin(cpp11::as_cpp<cpp11::decay_t<SEXP>>(l), cpp11::as_cpp<cpp11::decay_t<SEXP>>(r)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_rel_entr(SEXP l, SEXP r);
+extern "C" SEXP _sparsediff_sd_rel_entr(SEXP l, SEXP r) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_rel_entr(cpp11::as_cpp<cpp11::decay_t<SEXP>>(l), cpp11::as_cpp<cpp11::decay_t<SEXP>>(r)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_rel_entr_first_scalar(SEXP l, SEXP r);
+extern "C" SEXP _sparsediff_sd_rel_entr_first_scalar(SEXP l, SEXP r) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_rel_entr_first_scalar(cpp11::as_cpp<cpp11::decay_t<SEXP>>(l), cpp11::as_cpp<cpp11::decay_t<SEXP>>(r)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_rel_entr_second_scalar(SEXP l, SEXP r);
+extern "C" SEXP _sparsediff_sd_rel_entr_second_scalar(SEXP l, SEXP r) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_rel_entr_second_scalar(cpp11::as_cpp<cpp11::decay_t<SEXP>>(l), cpp11::as_cpp<cpp11::decay_t<SEXP>>(r)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_prod(SEXP c);
+extern "C" SEXP _sparsediff_sd_prod(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_prod(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_prod_axis_zero(SEXP c);
+extern "C" SEXP _sparsediff_sd_prod_axis_zero(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_prod_axis_zero(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
+SEXP sd_prod_axis_one(SEXP c);
+extern "C" SEXP _sparsediff_sd_prod_axis_one(SEXP c) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_prod_axis_one(cpp11::as_cpp<cpp11::decay_t<SEXP>>(c)));
+  END_CPP11
+}
+// sparsediff.cpp
 SEXP sd_problem(SEXP objective, list constraints, bool verbose);
 extern "C" SEXP _sparsediff_sd_problem(SEXP objective, SEXP constraints, SEXP verbose) {
   BEGIN_CPP11
@@ -94,18 +325,51 @@ extern "C" SEXP _sparsediff_sd_gradient(SEXP prob) {
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_sparsediff_sd_add",               (DL_FUNC) &_sparsediff_sd_add,               2},
-    {"_sparsediff_sd_engine_version",    (DL_FUNC) &_sparsediff_sd_engine_version,    0},
-    {"_sparsediff_sd_exp",               (DL_FUNC) &_sparsediff_sd_exp,               1},
-    {"_sparsediff_sd_gradient",          (DL_FUNC) &_sparsediff_sd_gradient,          1},
-    {"_sparsediff_sd_init_derivatives",  (DL_FUNC) &_sparsediff_sd_init_derivatives,  1},
-    {"_sparsediff_sd_init_jacobian",     (DL_FUNC) &_sparsediff_sd_init_jacobian,     1},
-    {"_sparsediff_sd_neg",               (DL_FUNC) &_sparsediff_sd_neg,               1},
-    {"_sparsediff_sd_objective_forward", (DL_FUNC) &_sparsediff_sd_objective_forward, 2},
-    {"_sparsediff_sd_problem",           (DL_FUNC) &_sparsediff_sd_problem,           3},
-    {"_sparsediff_sd_selftest_dgemm",    (DL_FUNC) &_sparsediff_sd_selftest_dgemm,    0},
-    {"_sparsediff_sd_sum",               (DL_FUNC) &_sparsediff_sd_sum,               2},
-    {"_sparsediff_sd_variable",          (DL_FUNC) &_sparsediff_sd_variable,          4},
+    {"_sparsediff_sd_add",                    (DL_FUNC) &_sparsediff_sd_add,                    2},
+    {"_sparsediff_sd_asinh",                  (DL_FUNC) &_sparsediff_sd_asinh,                  1},
+    {"_sparsediff_sd_atanh",                  (DL_FUNC) &_sparsediff_sd_atanh,                  1},
+    {"_sparsediff_sd_broadcast",              (DL_FUNC) &_sparsediff_sd_broadcast,              3},
+    {"_sparsediff_sd_cos",                    (DL_FUNC) &_sparsediff_sd_cos,                    1},
+    {"_sparsediff_sd_diag_mat",               (DL_FUNC) &_sparsediff_sd_diag_mat,               1},
+    {"_sparsediff_sd_diag_vec",               (DL_FUNC) &_sparsediff_sd_diag_vec,               1},
+    {"_sparsediff_sd_elementwise_mult",       (DL_FUNC) &_sparsediff_sd_elementwise_mult,       2},
+    {"_sparsediff_sd_engine_version",         (DL_FUNC) &_sparsediff_sd_engine_version,         0},
+    {"_sparsediff_sd_entr",                   (DL_FUNC) &_sparsediff_sd_entr,                   1},
+    {"_sparsediff_sd_exp",                    (DL_FUNC) &_sparsediff_sd_exp,                    1},
+    {"_sparsediff_sd_gradient",               (DL_FUNC) &_sparsediff_sd_gradient,               1},
+    {"_sparsediff_sd_hstack",                 (DL_FUNC) &_sparsediff_sd_hstack,                 2},
+    {"_sparsediff_sd_index",                  (DL_FUNC) &_sparsediff_sd_index,                  4},
+    {"_sparsediff_sd_init_derivatives",       (DL_FUNC) &_sparsediff_sd_init_derivatives,       1},
+    {"_sparsediff_sd_init_jacobian",          (DL_FUNC) &_sparsediff_sd_init_jacobian,          1},
+    {"_sparsediff_sd_log",                    (DL_FUNC) &_sparsediff_sd_log,                    1},
+    {"_sparsediff_sd_logistic",               (DL_FUNC) &_sparsediff_sd_logistic,               1},
+    {"_sparsediff_sd_matmul",                 (DL_FUNC) &_sparsediff_sd_matmul,                 2},
+    {"_sparsediff_sd_neg",                    (DL_FUNC) &_sparsediff_sd_neg,                    1},
+    {"_sparsediff_sd_normal_cdf",             (DL_FUNC) &_sparsediff_sd_normal_cdf,             1},
+    {"_sparsediff_sd_objective_forward",      (DL_FUNC) &_sparsediff_sd_objective_forward,      2},
+    {"_sparsediff_sd_power",                  (DL_FUNC) &_sparsediff_sd_power,                  2},
+    {"_sparsediff_sd_problem",                (DL_FUNC) &_sparsediff_sd_problem,                3},
+    {"_sparsediff_sd_prod",                   (DL_FUNC) &_sparsediff_sd_prod,                   1},
+    {"_sparsediff_sd_prod_axis_one",          (DL_FUNC) &_sparsediff_sd_prod_axis_one,          1},
+    {"_sparsediff_sd_prod_axis_zero",         (DL_FUNC) &_sparsediff_sd_prod_axis_zero,         1},
+    {"_sparsediff_sd_promote",                (DL_FUNC) &_sparsediff_sd_promote,                3},
+    {"_sparsediff_sd_quad_over_lin",          (DL_FUNC) &_sparsediff_sd_quad_over_lin,          2},
+    {"_sparsediff_sd_rel_entr",               (DL_FUNC) &_sparsediff_sd_rel_entr,               2},
+    {"_sparsediff_sd_rel_entr_first_scalar",  (DL_FUNC) &_sparsediff_sd_rel_entr_first_scalar,  2},
+    {"_sparsediff_sd_rel_entr_second_scalar", (DL_FUNC) &_sparsediff_sd_rel_entr_second_scalar, 2},
+    {"_sparsediff_sd_reshape",                (DL_FUNC) &_sparsediff_sd_reshape,                3},
+    {"_sparsediff_sd_selftest_dgemm",         (DL_FUNC) &_sparsediff_sd_selftest_dgemm,         0},
+    {"_sparsediff_sd_sin",                    (DL_FUNC) &_sparsediff_sd_sin,                    1},
+    {"_sparsediff_sd_sinh",                   (DL_FUNC) &_sparsediff_sd_sinh,                   1},
+    {"_sparsediff_sd_sum",                    (DL_FUNC) &_sparsediff_sd_sum,                    2},
+    {"_sparsediff_sd_tan",                    (DL_FUNC) &_sparsediff_sd_tan,                    1},
+    {"_sparsediff_sd_tanh",                   (DL_FUNC) &_sparsediff_sd_tanh,                   1},
+    {"_sparsediff_sd_trace",                  (DL_FUNC) &_sparsediff_sd_trace,                  1},
+    {"_sparsediff_sd_transpose",              (DL_FUNC) &_sparsediff_sd_transpose,              1},
+    {"_sparsediff_sd_upper_tri",              (DL_FUNC) &_sparsediff_sd_upper_tri,              1},
+    {"_sparsediff_sd_variable",               (DL_FUNC) &_sparsediff_sd_variable,               4},
+    {"_sparsediff_sd_vstack",                 (DL_FUNC) &_sparsediff_sd_vstack,                 2},
+    {"_sparsediff_sd_xexp",                   (DL_FUNC) &_sparsediff_sd_xexp,                   1},
     {NULL, NULL, 0}
 };
 }
