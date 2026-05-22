@@ -20,6 +20,7 @@ License: Apache License (== 2.0)
 URL: https://bnaras.github.io/sparsediff/, https://github.com/bnaras/sparsediff
 BugReports: https://github.com/bnaras/sparsediff/issues
 Encoding: UTF-8
+SystemRequirements: GNU make
 LinkingTo:
     cpp11
 Suggests:
