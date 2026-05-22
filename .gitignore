@@ -11,3 +11,6 @@ src/sparsediffengine/**/*.o
 .Rhistory
 .RData
 .DS_Store
+Rplots.pdf
+docs/
+pkgdown/

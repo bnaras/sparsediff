@@ -5,10 +5,10 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Balasubramanian", "Narasimhan", role = c("aut", "cre"),
            email = "naras@stanford.edu"),
-    person("Charlie", "Vanaret", role = c("aut", "cph"),
+    person("Daniel", "Cederberg", role = c("aut", "cph"),
            comment = "Author of the bundled SparseDiffEngine C library"),
-    person(family = "SparseDifferentiation contributors", role = c("aut", "cph"),
-           comment = "SparseDiffEngine C library"))
+    person("William Zijie", "Zhang", role = c("aut", "cph"),
+           comment = "Author of the bundled SparseDiffEngine C library"))
 Description: R bindings to the 'SparseDiffEngine' C library, the sparse
     Jacobian and Hessian differentiation backend used by 'CVXPY' for its
     Disciplined Nonlinear Programming (DNLP) extension. Provides low-level
@@ -17,14 +17,15 @@ Description: R bindings to the 'SparseDiffEngine' C library, the sparse
     as 'CVXR'. This package is the R analog of the 'sparsediffpy' Python
     package and wraps the same C library.
 License: Apache License (== 2.0)
-URL: https://github.com/bnaras/sparsediff
+URL: https://bnaras.github.io/sparsediff/, https://github.com/bnaras/sparsediff
 BugReports: https://github.com/bnaras/sparsediff/issues
 Encoding: UTF-8
-SystemRequirements: A BLAS library (provided by R); the bundled
-    SparseDiffEngine sources are built from C99.
 LinkingTo:
     cpp11
 Suggests:
-    cpp11
+    cpp11,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 NeedsCompilation: yes
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

@@ -1,0 +1,36 @@
+url: https://bnaras.github.io/sparsediff
+
+template:
+  bootstrap: 5
+
+authors:
+  Balasubramanian Narasimhan:
+    href: https://naras.su.domains
+  Daniel Cederberg:
+    href: https://dance858.github.io/
+  William Zijie Zhang:
+    href: https://www.zijie.ca/
+
+reference:
+- title: Package
+  contents:
+  - sparsediff-package
+  - engine_version
+- title: Building expressions
+  desc: >
+    Construct the leaves and atoms of a nonlinear differentiation graph. Each
+    constructor returns an expression handle.
+  contents:
+  - sparsediff-leaves
+  - sparsediff-elementwise
+  - sparsediff-affine
+  - sparsediff-bivariate
+  - sparsediff-reduction
+  - sparsediff-matrix
+- title: Problems and sparse derivatives
+  desc: >
+    Assemble expressions into a problem and evaluate its value, gradient,
+    sparse Jacobian and lower-triangular Lagrangian Hessian.
+  contents:
+  - sparsediff-problem
+  - sparsediff-oracle

@@ -7,3 +7,7 @@
 ^src/sparsediffengine/\.github$
 ^src/sparsediffengine/\.clang-format$
 ^src/sparsediffengine/CMakeLists\.txt$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
