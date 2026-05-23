@@ -53,14 +53,17 @@ static SEXP wrap_expr(expr* node) {
   if (node == nullptr) stop("sparsediff: engine returned a NULL expression");
   expr_retain(node);  // this R handle owns one reference
   SEXP xp = PROTECT(R_MakeExternalPtr(node, R_NilValue, R_NilValue));
-  R_RegisterCFinalizerEx(xp, expr_xp_finalizer, TRUE);
+  // Cast TRUE: on Windows/Rtools `TRUE` resolves to int (macro pollution), and
+  // R_RegisterCFinalizerEx's 3rd arg is Rboolean -> int->Rboolean is a hard
+  // error under g++ (-fpermissive). Explicit cast is portable across toolchains.
+  R_RegisterCFinalizerEx(xp, expr_xp_finalizer, static_cast<Rboolean>(TRUE));
   UNPROTECT(1);
   return xp;
 }
 static SEXP wrap_problem(problem* p) {
   if (p == nullptr) stop("sparsediff: engine returned a NULL problem");
   SEXP xp = PROTECT(R_MakeExternalPtr(p, R_NilValue, R_NilValue));
-  R_RegisterCFinalizerEx(xp, problem_xp_finalizer, TRUE);
+  R_RegisterCFinalizerEx(xp, problem_xp_finalizer, static_cast<Rboolean>(TRUE));
   UNPROTECT(1);
   return xp;
 }
