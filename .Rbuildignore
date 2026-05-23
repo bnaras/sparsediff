@@ -11,3 +11,13 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+# Compiled build artifacts must never ship in the source tarball.  The engine
+# builds in-place (objects land next to the .c), and building the vignette
+# (library(sparsediff)) compiles the package during R CMD build -- after the
+# cleanup script has run -- so on some platforms (observed: Windows) those fresh
+# .o end up in the build tree.  .Rbuildignore is applied when the tarball is
+# assembled (after the vignette build), so it reliably excludes them everywhere,
+# avoiding the "checking if this is a source package ... NOTE: apparent object
+# files/libraries" NOTE.
+^src/.*\.o$
+^src/.*\.(so|a|dll|dylib)$
