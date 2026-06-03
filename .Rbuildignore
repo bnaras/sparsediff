@@ -11,6 +11,7 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^Rplots\.pdf$
 # Compiled build artifacts must never ship in the source tarball.  The engine
 # builds in-place (objects land next to the .c), and building the vignette
 # (library(sparsediff)) compiles the package during R CMD build -- after the
