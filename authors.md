@@ -16,7 +16,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/bnaras/sparsediff/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/bnaras/sparsediff/blob/v0.4.0/DESCRIPTION)
 
 Narasimhan B, Cederberg D, Zhang W (2026). *sparsediff: R Interface to
 the 'SparseDiffEngine' Sparse Differentiation Backend*. R package
