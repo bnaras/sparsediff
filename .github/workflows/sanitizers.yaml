@@ -22,10 +22,12 @@ jobs:
       _R_CHECK_FORCE_SUGGESTS_: false
 
     steps:
+      # devscripts provides checkbashisms (vets configure/cleanup) and pandoc
+      # renders README.md / NEWS.md; without them R CMD check stops short.
       - name: System dependencies
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends git libuv1-dev pkg-config
+          apt-get install -y --no-install-recommends git libuv1-dev pkg-config devscripts pandoc
 
       - uses: actions/checkout@v6
         with:
