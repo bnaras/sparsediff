@@ -14,6 +14,19 @@
 \alias{sd_hessian_sparsity}
 \alias{sd_hessian_values}
 \title{Sparse derivative oracle}
+\usage{
+sd_init_derivatives(prob)
+sd_init_jacobian(prob)
+sd_init_jacobian_coo(prob)
+sd_init_hessian_coo(prob)
+sd_objective_forward(prob, u)
+sd_constraint_forward(prob, u)
+sd_gradient(prob)
+sd_jacobian_sparsity(prob)
+sd_jacobian_values(prob)
+sd_hessian_sparsity(prob)
+sd_hessian_values(prob, obj_w, w)
+}
 \arguments{
 \item{prob}{a problem handle from \code{\link{sd_problem}}.}
 

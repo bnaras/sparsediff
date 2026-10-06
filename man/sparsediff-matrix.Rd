@@ -12,6 +12,17 @@
 \alias{sd_left_matmul_dense}
 \alias{sd_right_matmul_dense}
 \title{Parameter- and constant-matrix atoms}
+\usage{
+sd_scalar_mult(param, child)
+sd_vector_mult(param, child)
+sd_convolve(param, child)
+sd_quad_form(child, Qp, Qi, Qx)
+sd_quad_form_dense(param, child, data)
+sd_left_matmul(child, Ap, Ai, Ax, ncol)
+sd_right_matmul(child, Ap, Ai, Ax, ncol)
+sd_left_matmul_dense(param, child, m, n, data)
+sd_right_matmul_dense(param, child, m, n, data)
+}
 \arguments{
 \item{param}{a parameter expression handle (see \code{\link{sd_parameter}}).}
 

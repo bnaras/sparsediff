@@ -9,6 +9,14 @@
 \alias{sd_rel_entr_first_scalar}
 \alias{sd_rel_entr_second_scalar}
 \title{Bivariate atoms}
+\usage{
+sd_elementwise_mult(l, r)
+sd_matmul(x, y)
+sd_quad_over_lin(l, r)
+sd_rel_entr(l, r)
+sd_rel_entr_first_scalar(l, r)
+sd_rel_entr_second_scalar(l, r)
+}
 \arguments{
 \item{l, r, x, y}{expression handles.}
 }

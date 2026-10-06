@@ -21,7 +21,8 @@
 * Documentation: the sparse matrix arguments of `sd_quad_form()` and
   `sd_left_matmul()` / `sd_right_matmul()` are compressed-sparse-row arrays,
   and the dense `data` arguments are row-major. Earlier documentation said
-  compressed-sparse-column and column-major.
+  compressed-sparse-column and column-major. The grouped help pages now have
+  usage sections (flagged by current R-devel).
 * The package now has a 'testthat' test suite.
 
 # sparsediff 0.4.0

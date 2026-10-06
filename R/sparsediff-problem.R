@@ -35,6 +35,10 @@
 #'
 #' @seealso \code{\link{sd_init_derivatives}} for the evaluation oracle,
 #'   \code{\link{sd_variable}} and the atom constructors for building expressions.
+#' @usage
+#' sd_problem(objective, constraints, verbose)
+#' sd_register_params(prob, params)
+#' sd_update_params(prob, theta)
 #' @name sparsediff-problem
 #' @aliases sd_problem sd_register_params sd_update_params
 NULL
@@ -82,6 +86,18 @@ NULL
 #' to 1-based as needed).
 #'
 #' @seealso \code{\link{sd_problem}}
+#' @usage
+#' sd_init_derivatives(prob)
+#' sd_init_jacobian(prob)
+#' sd_init_jacobian_coo(prob)
+#' sd_init_hessian_coo(prob)
+#' sd_objective_forward(prob, u)
+#' sd_constraint_forward(prob, u)
+#' sd_gradient(prob)
+#' sd_jacobian_sparsity(prob)
+#' sd_jacobian_values(prob)
+#' sd_hessian_sparsity(prob)
+#' sd_hessian_values(prob, obj_w, w)
 #' @name sparsediff-oracle
 #' @aliases sd_init_derivatives sd_init_jacobian sd_init_jacobian_coo sd_init_hessian_coo sd_objective_forward sd_constraint_forward sd_gradient sd_jacobian_sparsity sd_jacobian_values sd_hessian_sparsity sd_hessian_values
 NULL

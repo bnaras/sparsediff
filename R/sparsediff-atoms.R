@@ -27,6 +27,9 @@
 #'   column-major).
 #' @return An expression handle.
 #' @seealso \code{\link{sparsediff-elementwise}}, \code{\link{sd_problem}}
+#' @usage
+#' sd_variable(d1, d2, var_id, n_vars)
+#' sd_parameter(d1, d2, param_id, n_vars, values)
 #' @name sparsediff-leaves
 #' @aliases sd_variable sd_parameter
 NULL
@@ -52,6 +55,22 @@ NULL
 #'   \item{\code{sd_neg}}{negation \eqn{-x}.}
 #' }
 #' @seealso \code{\link{sparsediff-affine}}, \code{\link{sparsediff-bivariate}}
+#' @usage
+#' sd_exp(child)
+#' sd_log(c)
+#' sd_sin(c)
+#' sd_cos(c)
+#' sd_tan(c)
+#' sd_sinh(c)
+#' sd_tanh(c)
+#' sd_asinh(c)
+#' sd_atanh(c)
+#' sd_logistic(c)
+#' sd_xexp(c)
+#' sd_normal_cdf(c)
+#' sd_entr(c)
+#' sd_power(c, p)
+#' sd_neg(child)
 #' @name sparsediff-elementwise
 #' @aliases sd_exp sd_log sd_sin sd_cos sd_tan sd_sinh sd_tanh sd_asinh sd_atanh sd_logistic sd_xexp sd_normal_cdf sd_entr sd_power sd_neg
 NULL
@@ -87,6 +106,20 @@ NULL
 #'   \item{\code{sd_hstack}, \code{sd_vstack}}{horizontal / vertical stacking.}
 #' }
 #' @seealso \code{\link{sparsediff-elementwise}}, \code{\link{sparsediff-matrix}}
+#' @usage
+#' sd_add(left, right)
+#' sd_sum(child, axis)
+#' sd_trace(c)
+#' sd_transpose(c)
+#' sd_diag_vec(c)
+#' sd_diag_mat(c)
+#' sd_upper_tri(c)
+#' sd_promote(c, d1, d2)
+#' sd_reshape(c, d1, d2)
+#' sd_broadcast(c, d1, d2)
+#' sd_index(child, d1, d2, indices)
+#' sd_hstack(args, n_vars)
+#' sd_vstack(args, n_vars)
 #' @name sparsediff-affine
 #' @aliases sd_add sd_sum sd_trace sd_transpose sd_diag_vec sd_diag_mat sd_upper_tri sd_promote sd_reshape sd_broadcast sd_index sd_hstack sd_vstack
 NULL
@@ -107,6 +140,13 @@ NULL
 #'     entropy with a scalar first or second argument broadcast against the other.}
 #' }
 #' @seealso \code{\link{sparsediff-elementwise}}, \code{\link{sparsediff-reduction}}
+#' @usage
+#' sd_elementwise_mult(l, r)
+#' sd_matmul(x, y)
+#' sd_quad_over_lin(l, r)
+#' sd_rel_entr(l, r)
+#' sd_rel_entr_first_scalar(l, r)
+#' sd_rel_entr_second_scalar(l, r)
 #' @name sparsediff-bivariate
 #' @aliases sd_elementwise_mult sd_matmul sd_quad_over_lin sd_rel_entr sd_rel_entr_first_scalar sd_rel_entr_second_scalar
 NULL
@@ -124,6 +164,10 @@ NULL
 #'   \item{\code{sd_prod_axis_one}}{row-wise products (reduce across columns).}
 #' }
 #' @seealso \code{\link{sparsediff-affine}}
+#' @usage
+#' sd_prod(c)
+#' sd_prod_axis_zero(c)
+#' sd_prod_axis_one(c)
 #' @name sparsediff-reduction
 #' @aliases sd_prod sd_prod_axis_zero sd_prod_axis_one
 NULL
@@ -174,6 +218,16 @@ NULL
 #'     product with a dense constant or parametric matrix.}
 #' }
 #' @seealso \code{\link{sd_parameter}}, \code{\link{sd_register_params}}
+#' @usage
+#' sd_scalar_mult(param, child)
+#' sd_vector_mult(param, child)
+#' sd_convolve(param, child)
+#' sd_quad_form(child, Qp, Qi, Qx)
+#' sd_quad_form_dense(param, child, data)
+#' sd_left_matmul(child, Ap, Ai, Ax, ncol)
+#' sd_right_matmul(child, Ap, Ai, Ax, ncol)
+#' sd_left_matmul_dense(param, child, m, n, data)
+#' sd_right_matmul_dense(param, child, m, n, data)
 #' @name sparsediff-matrix
 #' @aliases sd_scalar_mult sd_vector_mult sd_convolve sd_quad_form sd_quad_form_dense sd_left_matmul sd_right_matmul sd_left_matmul_dense sd_right_matmul_dense
 NULL
