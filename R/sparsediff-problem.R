@@ -83,7 +83,5 @@ NULL
 #'
 #' @seealso \code{\link{sd_problem}}
 #' @name sparsediff-oracle
-#' @aliases sd_init_derivatives sd_init_jacobian sd_init_jacobian_coo
-#'   sd_init_hessian_coo sd_objective_forward sd_constraint_forward sd_gradient
-#'   sd_jacobian_sparsity sd_jacobian_values sd_hessian_sparsity sd_hessian_values
+#' @aliases sd_init_derivatives sd_init_jacobian sd_init_jacobian_coo sd_init_hessian_coo sd_objective_forward sd_constraint_forward sd_gradient sd_jacobian_sparsity sd_jacobian_values sd_hessian_sparsity sd_hessian_values
 NULL

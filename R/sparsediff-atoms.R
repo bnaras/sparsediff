@@ -53,8 +53,7 @@ NULL
 #' }
 #' @seealso \code{\link{sparsediff-affine}}, \code{\link{sparsediff-bivariate}}
 #' @name sparsediff-elementwise
-#' @aliases sd_exp sd_log sd_sin sd_cos sd_tan sd_sinh sd_tanh sd_asinh sd_atanh
-#'   sd_logistic sd_xexp sd_normal_cdf sd_entr sd_power sd_neg
+#' @aliases sd_exp sd_log sd_sin sd_cos sd_tan sd_sinh sd_tanh sd_asinh sd_atanh sd_logistic sd_xexp sd_normal_cdf sd_entr sd_power sd_neg
 NULL
 
 #' Affine and shape atoms
@@ -89,8 +88,7 @@ NULL
 #' }
 #' @seealso \code{\link{sparsediff-elementwise}}, \code{\link{sparsediff-matrix}}
 #' @name sparsediff-affine
-#' @aliases sd_add sd_sum sd_trace sd_transpose sd_diag_vec sd_diag_mat
-#'   sd_upper_tri sd_promote sd_reshape sd_broadcast sd_index sd_hstack sd_vstack
+#' @aliases sd_add sd_sum sd_trace sd_transpose sd_diag_vec sd_diag_mat sd_upper_tri sd_promote sd_reshape sd_broadcast sd_index sd_hstack sd_vstack
 NULL
 
 #' Bivariate atoms
@@ -110,8 +108,7 @@ NULL
 #' }
 #' @seealso \code{\link{sparsediff-elementwise}}, \code{\link{sparsediff-reduction}}
 #' @name sparsediff-bivariate
-#' @aliases sd_elementwise_mult sd_matmul sd_quad_over_lin sd_rel_entr
-#'   sd_rel_entr_first_scalar sd_rel_entr_second_scalar
+#' @aliases sd_elementwise_mult sd_matmul sd_quad_over_lin sd_rel_entr sd_rel_entr_first_scalar sd_rel_entr_second_scalar
 NULL
 
 #' Product-reduction atoms
@@ -139,15 +136,22 @@ NULL
 #'
 #' @param param a parameter expression handle (see \code{\link{sd_parameter}}).
 #' @param child an expression handle (the variable argument).
-#' @param Qp,Qi,Qx the column-pointer, row-index and value arrays of a
-#'   compressed-sparse-column matrix \eqn{Q} (as in a \code{Matrix::dgCMatrix}:
-#'   \code{@p}, \code{@i}, \code{@x}) for \code{sd_quad_form}'s \eqn{x^\top Q x}.
-#' @param Ap,Ai,Ax the compressed-sparse-column arrays of a constant matrix
-#'   \eqn{A} for the sparse matrix products.
+#' @param Qp,Qi,Qx the row-pointer, column-index and value arrays of a
+#'   compressed-sparse-row (CSR) matrix \eqn{Q} for \code{sd_quad_form}'s
+#'   \eqn{x^\top Q x}. \eqn{Q} must be symmetric, so its CSR arrays equal its
+#'   compressed-sparse-column arrays and the \code{@p}, \code{@i}, \code{@x}
+#'   slots of a \code{Matrix::dgCMatrix} holding \eqn{Q} can be passed directly.
+#' @param Ap,Ai,Ax the row-pointer, column-index and value arrays of a constant
+#'   matrix \eqn{A} in compressed-sparse-row (CSR) form, for the sparse matrix
+#'   products. These are the \code{@p}, \code{@i}, \code{@x} slots of a
+#'   \code{Matrix::dgCMatrix} holding \eqn{A^\top}, not \eqn{A}.
 #' @param ncol number of columns of the sparse constant matrix \eqn{A}.
 #' @param m,n row and column dimensions of the dense constant matrix.
-#' @param data the dense constant-matrix entries (length \code{m * n},
-#'   column-major).
+#' @param data the dense constant-matrix entries in row-major order (length
+#'   \code{m * n} for the matrix products, \code{n * n} for
+#'   \code{sd_quad_form_dense}); for an R matrix \code{M}, pass
+#'   \code{as.vector(t(M))}. Pass \code{numeric(0)} when the matrix comes from
+#'   \code{param}.
 #' @return An expression handle.
 #' @details
 #' \describe{
@@ -156,13 +160,20 @@ NULL
 #'   \item{\code{sd_convolve}}{convolution of a parameter kernel with a child.}
 #'   \item{\code{sd_quad_form}}{the quadratic form \eqn{x^\top Q x} with sparse
 #'     constant \eqn{Q}.}
+#'   \item{\code{sd_quad_form_dense}}{the quadratic form \eqn{x^\top Q x} with a
+#'     dense symmetric \eqn{n \times n} \eqn{Q}, where \eqn{n} is the length of
+#'     the vector \code{child}. Supply exactly one source: \code{param = NULL}
+#'     and \code{data} for a constant \eqn{Q} (checked for symmetry), or a
+#'     parameter handle of size \eqn{n^2} with \code{data = numeric(0)} for a
+#'     parametric \eqn{Q} that follows \code{\link{sd_update_params}}. A
+#'     parametric \eqn{Q} is not checked: keeping it symmetric is the caller's
+#'     responsibility.}
 #'   \item{\code{sd_left_matmul}, \code{sd_right_matmul}}{left / right product
 #'     with a sparse constant matrix \eqn{A}.}
 #'   \item{\code{sd_left_matmul_dense}, \code{sd_right_matmul_dense}}{left / right
-#'     product with a dense constant matrix.}
+#'     product with a dense constant or parametric matrix.}
 #' }
 #' @seealso \code{\link{sd_parameter}}, \code{\link{sd_register_params}}
 #' @name sparsediff-matrix
-#' @aliases sd_scalar_mult sd_vector_mult sd_convolve sd_quad_form sd_left_matmul
-#'   sd_right_matmul sd_left_matmul_dense sd_right_matmul_dense
+#' @aliases sd_scalar_mult sd_vector_mult sd_convolve sd_quad_form sd_quad_form_dense sd_left_matmul sd_right_matmul sd_left_matmul_dense sd_right_matmul_dense
 NULL

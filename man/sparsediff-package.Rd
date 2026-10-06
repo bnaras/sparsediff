@@ -10,7 +10,7 @@ R bindings to the 'SparseDiffEngine' C library --- the sparse Jacobian and
 Hessian differentiation backend used by 'CVXPY' for its Disciplined
 Nonlinear Programming (DNLP) extension. This package is the R analog of the
 'sparsediffpy' Python package and wraps the same C library (pinned at the
-upstream v0.3.0 release).
+upstream v0.6.1 release).
 }
 \seealso{
 Useful links:
@@ -26,6 +26,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Balasubramanian Narasimhan \email{naras@stanford.edu}
   \item Daniel Cederberg (Author of the bundled SparseDiffEngine C library) [copyright holder]
   \item William Zijie Zhang (Author of the bundled SparseDiffEngine C library) [copyright holder]
 }

@@ -180,6 +180,10 @@ sd_quad_form <- function(child, Qp, Qi, Qx) {
   .Call(`_sparsediff_sd_quad_form`, child, Qp, Qi, Qx)
 }
 
+sd_quad_form_dense <- function(param, child, data) {
+  .Call(`_sparsediff_sd_quad_form_dense`, param, child, data)
+}
+
 sd_left_matmul <- function(child, Ap, Ai, Ax, ncol) {
   .Call(`_sparsediff_sd_left_matmul`, child, Ap, Ai, Ax, ncol)
 }

@@ -321,6 +321,13 @@ extern "C" SEXP _sparsediff_sd_quad_form(SEXP child, SEXP Qp, SEXP Qi, SEXP Qx) 
   END_CPP11
 }
 // sparsediff.cpp
+SEXP sd_quad_form_dense(SEXP param, SEXP child, SEXP data);
+extern "C" SEXP _sparsediff_sd_quad_form_dense(SEXP param, SEXP child, SEXP data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sd_quad_form_dense(cpp11::as_cpp<cpp11::decay_t<SEXP>>(param), cpp11::as_cpp<cpp11::decay_t<SEXP>>(child), cpp11::as_cpp<cpp11::decay_t<SEXP>>(data)));
+  END_CPP11
+}
+// sparsediff.cpp
 SEXP sd_left_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, int ncol);
 extern "C" SEXP _sparsediff_sd_left_matmul(SEXP child, SEXP Ap, SEXP Ai, SEXP Ax, SEXP ncol) {
   BEGIN_CPP11
@@ -495,6 +502,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sparsediff_sd_prod_axis_zero",         (DL_FUNC) &_sparsediff_sd_prod_axis_zero,         1},
     {"_sparsediff_sd_promote",                (DL_FUNC) &_sparsediff_sd_promote,                3},
     {"_sparsediff_sd_quad_form",              (DL_FUNC) &_sparsediff_sd_quad_form,              4},
+    {"_sparsediff_sd_quad_form_dense",        (DL_FUNC) &_sparsediff_sd_quad_form_dense,        3},
     {"_sparsediff_sd_quad_over_lin",          (DL_FUNC) &_sparsediff_sd_quad_over_lin,          2},
     {"_sparsediff_sd_register_params",        (DL_FUNC) &_sparsediff_sd_register_params,        2},
     {"_sparsediff_sd_rel_entr",               (DL_FUNC) &_sparsediff_sd_rel_entr,               2},

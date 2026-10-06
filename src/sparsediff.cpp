@@ -16,6 +16,7 @@
 // last owner cleans up the whole DAG exactly once, in any order.
 
 #include <cpp11.hpp>
+#include <cmath>
 #include <string>
 #include <vector>
 
@@ -229,7 +230,46 @@ SEXP sd_parameter(int d1, int d2, int param_id, int n_vars, SEXP values) {
 SEXP sd_quad_form(SEXP child, SEXP Qp, SEXP Qi, SEXP Qx) {
   int n = static_cast<int>(Rf_length(Qp)) - 1;
   CSR_matrix Q = csr_view(Qp, Qi, Qx, n);
-  return wrap_expr(new_quad_form(as_expr(child), &Q));  // engine copies Q
+  return wrap_expr(new_quad_form_sparse(as_expr(child), &Q));  // engine copies Q
+}
+
+// quadratic form  x' Q x  with a DENSE n x n Q, n = length of the vector child.
+// Exactly one source: param = NULL with row-major `data` (n*n doubles) for a
+// constant Q; or a parameter node (size n*n) with empty `data` for a parametric
+// Q, refreshed from the parameter on every forward pass. The engine copies
+// `data`. Q must be symmetric (the engine's gradient is 2 Q x): checked here for
+// constant data, the caller's contract for a parameter. All validation happens
+// before the engine is called, because R builds define NDEBUG (the engine's
+// asserts are compiled out) and an engine-side error longjmps out of the call.
+[[cpp11::register]]
+SEXP sd_quad_form_dense(SEXP param, SEXP child, SEXP data) {
+  expr* c = as_expr(child);
+  if (c->d1 != 1 && c->d2 != 1)
+    stop("sd_quad_form_dense: child must be a vector, not %d x %d", c->d1, c->d2);
+  const int n = c->size;
+  const bool has_param = (param != R_NilValue);
+  const R_xlen_t len = Rf_xlength(data);
+  if (has_param == (len > 0))
+    stop("sd_quad_form_dense: supply exactly one of `param` and non-empty `data`");
+  if (has_param) {
+    expr* q = as_expr(param);
+    if (q->size != n * n)
+      stop("sd_quad_form_dense: parameter has %d entries, expected n*n = %d", q->size, n * n);
+    return wrap_expr(new_quad_form_dense(c, n, nullptr, q));
+  }
+  if (TYPEOF(data) != REALSXP) stop("sd_quad_form_dense: `data` must be a double vector");
+  if (len != static_cast<R_xlen_t>(n) * n)
+    stop("sd_quad_form_dense: `data` has length %d, expected n*n = %d", static_cast<int>(len), n * n);
+  const double* Q = REAL(data);
+  for (int i = 0; i < n; i++) {
+    for (int j = i + 1; j < n; j++) {
+      const double a = Q[i * n + j], b = Q[j * n + i];
+      if (std::fabs(a - b) > 1e-8 * (1.0 + std::fmax(std::fabs(a), std::fabs(b))))
+        stop("sd_quad_form_dense: Q is not symmetric (entries [%d,%d] and [%d,%d] differ)",
+             i + 1, j + 1, j + 1, i + 1);
+    }
+  }
+  return wrap_expr(new_quad_form_dense(c, n, Q, nullptr));
 }
 
 // constant sparse-matrix products  A @ f(x)  and  f(x) @ A  (A is m x ncol CSR).

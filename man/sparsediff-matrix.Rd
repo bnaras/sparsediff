@@ -6,6 +6,7 @@
 \alias{sd_vector_mult}
 \alias{sd_convolve}
 \alias{sd_quad_form}
+\alias{sd_quad_form_dense}
 \alias{sd_left_matmul}
 \alias{sd_right_matmul}
 \alias{sd_left_matmul_dense}
@@ -16,19 +17,26 @@
 
 \item{child}{an expression handle (the variable argument).}
 
-\item{Qp, Qi, Qx}{the column-pointer, row-index and value arrays of a
-compressed-sparse-column matrix \eqn{Q} (as in a \code{Matrix::dgCMatrix}:
-\code{@p}, \code{@i}, \code{@x}) for \code{sd_quad_form}'s \eqn{x^\top Q x}.}
+\item{Qp, Qi, Qx}{the row-pointer, column-index and value arrays of a
+compressed-sparse-row (CSR) matrix \eqn{Q} for \code{sd_quad_form}'s
+\eqn{x^\top Q x}. \eqn{Q} must be symmetric, so its CSR arrays equal its
+compressed-sparse-column arrays and the \code{@p}, \code{@i}, \code{@x}
+slots of a \code{Matrix::dgCMatrix} holding \eqn{Q} can be passed directly.}
 
-\item{Ap, Ai, Ax}{the compressed-sparse-column arrays of a constant matrix
-\eqn{A} for the sparse matrix products.}
+\item{Ap, Ai, Ax}{the row-pointer, column-index and value arrays of a constant
+matrix \eqn{A} in compressed-sparse-row (CSR) form, for the sparse matrix
+products. These are the \code{@p}, \code{@i}, \code{@x} slots of a
+\code{Matrix::dgCMatrix} holding \eqn{A^\top}, not \eqn{A}.}
 
 \item{ncol}{number of columns of the sparse constant matrix \eqn{A}.}
 
 \item{m, n}{row and column dimensions of the dense constant matrix.}
 
-\item{data}{the dense constant-matrix entries (length \code{m * n},
-column-major).}
+\item{data}{the dense constant-matrix entries in row-major order (length
+\code{m * n} for the matrix products, \code{n * n} for
+\code{sd_quad_form_dense}); for an R matrix \code{M}, pass
+\code{as.vector(t(M))}. Pass \code{numeric(0)} when the matrix comes from
+\code{param}.}
 }
 \value{
 An expression handle.
@@ -45,10 +53,18 @@ differentiated graph (and, for parameters, be updated between evaluations).
   \item{\code{sd_convolve}}{convolution of a parameter kernel with a child.}
   \item{\code{sd_quad_form}}{the quadratic form \eqn{x^\top Q x} with sparse
     constant \eqn{Q}.}
+  \item{\code{sd_quad_form_dense}}{the quadratic form \eqn{x^\top Q x} with a
+    dense symmetric \eqn{n \times n} \eqn{Q}, where \eqn{n} is the length of
+    the vector \code{child}. Supply exactly one source: \code{param = NULL}
+    and \code{data} for a constant \eqn{Q} (checked for symmetry), or a
+    parameter handle of size \eqn{n^2} with \code{data = numeric(0)} for a
+    parametric \eqn{Q} that follows \code{\link{sd_update_params}}. A
+    parametric \eqn{Q} is not checked: keeping it symmetric is the caller's
+    responsibility.}
   \item{\code{sd_left_matmul}, \code{sd_right_matmul}}{left / right product
     with a sparse constant matrix \eqn{A}.}
   \item{\code{sd_left_matmul_dense}, \code{sd_right_matmul_dense}}{left / right
-    product with a dense constant matrix.}
+    product with a dense constant or parametric matrix.}
 }
 }
 \seealso{
