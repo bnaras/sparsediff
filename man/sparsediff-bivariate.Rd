@@ -31,7 +31,11 @@ Functions of two expression arguments.
   \item{\code{sd_elementwise_mult}}{elementwise (Hadamard) product.}
   \item{\code{sd_matmul}}{matrix product \eqn{x y}.}
   \item{\code{sd_quad_over_lin}}{the quadratic-over-linear \eqn{\lVert x \rVert^2 / y}.}
-  \item{\code{sd_rel_entr}}{elementwise relative entropy \eqn{x \log(x / y)}.}
+  \item{\code{sd_rel_entr}}{relative entropy \eqn{x \log(x / y)}. Like
+    'sparsediffpy' \code{make_rel_entr}, it dispatches on operand size: a
+    scalar \code{l} with a non-scalar \code{r} uses
+    \code{sd_rel_entr_first_scalar}, the reverse uses
+    \code{sd_rel_entr_second_scalar}, and otherwise it is elementwise.}
   \item{\code{sd_rel_entr_first_scalar}, \code{sd_rel_entr_second_scalar}}{relative
     entropy with a scalar first or second argument broadcast against the other.}
 }

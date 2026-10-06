@@ -14,6 +14,20 @@
 * New `sd_quad_form_dense()`: the quadratic form with a dense constant or
   parametric matrix. The parametric form follows `sd_update_params()`.
   `sd_quad_form()` keeps its signature and still takes a sparse constant matrix.
+* Every 'sparsediffpy' 0.6.1 function now has an `sd_*` counterpart that calls
+  the same engine routine with the same arguments; the name map is on the
+  package help page (`?sparsediff`). New: `sd_left_kron()` and
+  `sd_right_kron()` (Kronecker products, used by the next CVXPY release), the
+  compressed-sparse-row derivative accessors `sd_jacobian()`,
+  `sd_get_jacobian()`, `sd_init_hessian()`, `sd_hessian()` and
+  `sd_get_hessian()`, and `sd_get_expr_dimensions()` / `sd_get_expr_size()`.
+  `sd_rel_entr()` now dispatches on operand size like `make_rel_entr`.
+* Fixed: `sd_init_hessian_coo()` crashed R when called before the Jacobian was
+  initialized; it now initializes the Jacobian first.
+* `sd_rel_entr()`, `sd_rel_entr_first_scalar()` and `sd_rel_entr_second_scalar()`
+  now check that their arguments are two different variables, which the
+  engine requires; other arguments overflowed a heap buffer (found with
+  AddressSanitizer).
 * The BLAS shim gains `cblas_ddot`, which the 0.6.1 engine calls.
 * Fixed: the package failed to compile on Linux systems with glibc 2.36 or
   older (for example Debian 12), because `_GNU_SOURCE` was defined too late for

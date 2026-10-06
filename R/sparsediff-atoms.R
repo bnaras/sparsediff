@@ -34,6 +34,23 @@
 #' @aliases sd_variable sd_parameter
 NULL
 
+#' Expression shape
+#'
+#' The dimensions and the number of entries of an expression node (the
+#' 'sparsediffpy' \code{get_expr_dimensions} and \code{get_expr_size}).
+#'
+#' @param node an expression handle.
+#' @return \code{sd_get_expr_dimensions}: an integer vector \code{c(d1, d2)},
+#'   the node's rows and columns. \code{sd_get_expr_size}: an integer scalar,
+#'   the number of entries \code{d1 * d2}.
+#' @seealso \code{\link{sparsediff-leaves}}
+#' @usage
+#' sd_get_expr_dimensions(node)
+#' sd_get_expr_size(node)
+#' @name sparsediff-getters
+#' @aliases sd_get_expr_dimensions sd_get_expr_size
+NULL
+
 #' Elementwise atoms
 #'
 #' Smooth elementwise functions of a single expression. Each returns an
@@ -135,7 +152,11 @@ NULL
 #'   \item{\code{sd_elementwise_mult}}{elementwise (Hadamard) product.}
 #'   \item{\code{sd_matmul}}{matrix product \eqn{x y}.}
 #'   \item{\code{sd_quad_over_lin}}{the quadratic-over-linear \eqn{\lVert x \rVert^2 / y}.}
-#'   \item{\code{sd_rel_entr}}{elementwise relative entropy \eqn{x \log(x / y)}.}
+#'   \item{\code{sd_rel_entr}}{relative entropy \eqn{x \log(x / y)}. Like
+#'     'sparsediffpy' \code{make_rel_entr}, it dispatches on operand size: a
+#'     scalar \code{l} with a non-scalar \code{r} uses
+#'     \code{sd_rel_entr_first_scalar}, the reverse uses
+#'     \code{sd_rel_entr_second_scalar}, and otherwise it is elementwise.}
 #'   \item{\code{sd_rel_entr_first_scalar}, \code{sd_rel_entr_second_scalar}}{relative
 #'     entropy with a scalar first or second argument broadcast against the other.}
 #' }
@@ -191,6 +212,12 @@ NULL
 #'   \code{Matrix::dgCMatrix} holding \eqn{A^\top}, not \eqn{A}.
 #' @param ncol number of columns of the sparse constant matrix \eqn{A}.
 #' @param m,n row and column dimensions of the dense constant matrix.
+#' @param p,q,r,s for the Kronecker products \eqn{Z = A \otimes B}: \eqn{A} is
+#'   \eqn{p \times q} and \eqn{B} is \eqn{r \times s}.
+#' @param active_blocks for the Kronecker products, an integer vector of 0-based
+#'   column-major indices of the nonzero entries of the variable-free operand
+#'   (\code{param}); only the output rows they cover are built. For a
+#'   parametric operand pass every index, \code{0:(length - 1)}.
 #' @param data the dense constant-matrix entries in row-major order (length
 #'   \code{m * n} for the matrix products, \code{n * n} for
 #'   \code{sd_quad_form_dense}); for an R matrix \code{M}, pass
@@ -216,7 +243,16 @@ NULL
 #'     with a sparse constant matrix \eqn{A}.}
 #'   \item{\code{sd_left_matmul_dense}, \code{sd_right_matmul_dense}}{left / right
 #'     product with a dense constant or parametric matrix.}
+#'   \item{\code{sd_left_kron}, \code{sd_right_kron}}{the Kronecker product
+#'     \eqn{A \otimes B} with the variable-free operand \code{param} on the
+#'     left (\eqn{A}) or on the right (\eqn{B}) and the variable operand
+#'     \code{child} on the other side. \code{param} may be a parameter or a
+#'     constant made with \code{sd_parameter(..., param_id = -1, ...)}.}
 #' }
+#' A parameter cannot be the source of the sparse products
+#' \code{sd_left_matmul} / \code{sd_right_matmul} (the engine does not support
+#' it; 'sparsediffpy' accepts the argument but the engine then aborts); use the
+#' dense products for a parametric matrix.
 #' @seealso \code{\link{sd_parameter}}, \code{\link{sd_register_params}}
 #' @usage
 #' sd_scalar_mult(param, child)
@@ -228,6 +264,8 @@ NULL
 #' sd_right_matmul(child, Ap, Ai, Ax, ncol)
 #' sd_left_matmul_dense(param, child, m, n, data)
 #' sd_right_matmul_dense(param, child, m, n, data)
+#' sd_left_kron(param, child, p, q, r, s, active_blocks)
+#' sd_right_kron(param, child, p, q, r, s, active_blocks)
 #' @name sparsediff-matrix
-#' @aliases sd_scalar_mult sd_vector_mult sd_convolve sd_quad_form sd_quad_form_dense sd_left_matmul sd_right_matmul sd_left_matmul_dense sd_right_matmul_dense
+#' @aliases sd_scalar_mult sd_vector_mult sd_convolve sd_quad_form sd_quad_form_dense sd_left_matmul sd_right_matmul sd_left_matmul_dense sd_right_matmul_dense sd_left_kron sd_right_kron
 NULL
