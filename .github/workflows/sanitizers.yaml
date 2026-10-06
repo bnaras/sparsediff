@@ -1,0 +1,65 @@
+# Sanitizer check, run by hand (Actions tab > sanitizers > Run workflow, or
+# `gh workflow run sanitizers.yaml --ref <branch>`). Builds and checks the
+# package under R-devel compiled with GCC's UndefinedBehaviorSanitizer
+# (rocker/r-devel-san: -fsanitize=undefined,bounds-strict), and fails if any
+# sanitizer report appears in the install log, the examples or the tests.
+# UBSAN prints a report and continues, so the check Status alone does not
+# show it.
+on:
+  workflow_dispatch:
+
+name: sanitizers
+
+permissions: read-all
+
+jobs:
+  ubsan:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/rocker/r-devel-san:latest
+
+    env:
+      _R_CHECK_FORCE_SUGGESTS_: false
+
+    steps:
+      - name: System dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git libuv1-dev pkg-config
+
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      # RD is the sanitizer R-devel; /usr/bin/R in this image is a different R
+      # with a different library tree, so everything goes through RD.
+      - name: R dependencies
+        run: |
+          RD -q -e 'install.packages(c("cpp11", "testthat"), repos = "https://cloud.r-project.org")'
+          RD -q -e 'for (p in c("cpp11", "testthat")) loadNamespace(p)'
+
+      - name: Show the sanitizer configuration
+        run: RD CMD config CC && RD CMD config CXX
+
+      # knitr, rmarkdown and pandoc are not installed, so vignettes are skipped;
+      # the R-CMD-check workflow covers them.
+      - name: Build and check
+        run: |
+          RD CMD build --no-build-vignettes .
+          RD CMD check --as-cran --no-manual --ignore-vignettes sparsediff_*.tar.gz
+
+      - name: Fail on sanitizer reports
+        if: always()
+        run: |
+          if grep -rnE "runtime error:|AddressSanitizer|LeakSanitizer" sparsediff.Rcheck; then
+            echo "::error::sanitizer report found"
+            exit 1
+          fi
+          echo "no sanitizer reports"
+
+      - name: Upload check results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubsan-check
+          path: sparsediff.Rcheck
