@@ -5,6 +5,13 @@ differentiation vector; a parameter is fixed data that can be updated
 between evaluations (see
 [`sd_register_params`](https://bnaras.github.io/sparsediff/reference/sparsediff-problem.md)).
 
+## Usage
+
+``` r
+sd_variable(d1, d2, var_id, n_vars)
+sd_parameter(d1, d2, param_id, n_vars, values)
+```
+
 ## Arguments
 
 - d1, d2:

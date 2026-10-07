@@ -3,6 +3,24 @@
 Affine combinations and shape manipulations of expressions. These have
 constant (zero) second derivatives but participate in the Jacobian.
 
+## Usage
+
+``` r
+sd_add(left, right)
+sd_sum(child, axis)
+sd_trace(c)
+sd_transpose(c)
+sd_diag_vec(c)
+sd_diag_mat(c)
+sd_upper_tri(c)
+sd_promote(c, d1, d2)
+sd_reshape(c, d1, d2)
+sd_broadcast(c, d1, d2)
+sd_index(child, d1, d2, indices)
+sd_hstack(args, n_vars)
+sd_vstack(args, n_vars)
+```
+
 ## Arguments
 
 - left, right, child, c:

@@ -2,6 +2,14 @@
 
 Multiplicative reductions of an expression.
 
+## Usage
+
+``` r
+sd_prod(c)
+sd_prod_axis_zero(c)
+sd_prod_axis_one(c)
+```
+
 ## Arguments
 
 - c:

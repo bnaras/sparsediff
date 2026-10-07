@@ -4,6 +4,14 @@ Combine an objective expression and a list of constraint expressions
 (built with the `sd_*` atom constructors) into a single problem object
 whose value and sparse derivatives can be evaluated repeatedly.
 
+## Usage
+
+``` r
+sd_problem(objective, constraints, verbose)
+sd_register_params(prob, params)
+sd_update_params(prob, theta)
+```
+
 ## Arguments
 
 - objective:

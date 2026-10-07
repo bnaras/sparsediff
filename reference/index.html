@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sparsediff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/sparsediff.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/bnaras/sparsediff/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -65,49 +66,56 @@
 
       <dl><dt>
 
-          <code><a href="sparsediff-leaves.html">sparsediff-leaves</a></code> <code><a href="sparsediff-leaves.html">sd_variable</a></code> <code><a href="sparsediff-leaves.html">sd_parameter</a></code>
+          <code><a href="sparsediff-leaves.html">sd_variable()</a></code> <code><a href="sparsediff-leaves.html">sd_parameter()</a></code>
 
         </dt>
         <dd>Leaf expressions: variables and parameters</dd>
 
         <dt>
 
-          <code><a href="sparsediff-elementwise.html">sparsediff-elementwise</a></code> <code><a href="sparsediff-elementwise.html">sd_exp</a></code> <code><a href="sparsediff-elementwise.html">sd_log</a></code> <code><a href="sparsediff-elementwise.html">sd_sin</a></code> <code><a href="sparsediff-elementwise.html">sd_cos</a></code> <code><a href="sparsediff-elementwise.html">sd_tan</a></code> <code><a href="sparsediff-elementwise.html">sd_sinh</a></code> <code><a href="sparsediff-elementwise.html">sd_tanh</a></code> <code><a href="sparsediff-elementwise.html">sd_asinh</a></code> <code><a href="sparsediff-elementwise.html">sd_atanh</a></code> <code><a href="sparsediff-elementwise.html">sd_logistic</a></code> <code><a href="sparsediff-elementwise.html">sd_xexp</a></code> <code><a href="sparsediff-elementwise.html">sd_normal_cdf</a></code> <code><a href="sparsediff-elementwise.html">sd_entr</a></code> <code><a href="sparsediff-elementwise.html">sd_power</a></code> <code><a href="sparsediff-elementwise.html">sd_neg</a></code>
+          <code><a href="sparsediff-elementwise.html">sd_exp()</a></code> <code><a href="sparsediff-elementwise.html">sd_log()</a></code> <code><a href="sparsediff-elementwise.html">sd_sin()</a></code> <code><a href="sparsediff-elementwise.html">sd_cos()</a></code> <code><a href="sparsediff-elementwise.html">sd_tan()</a></code> <code><a href="sparsediff-elementwise.html">sd_sinh()</a></code> <code><a href="sparsediff-elementwise.html">sd_tanh()</a></code> <code><a href="sparsediff-elementwise.html">sd_asinh()</a></code> <code><a href="sparsediff-elementwise.html">sd_atanh()</a></code> <code><a href="sparsediff-elementwise.html">sd_logistic()</a></code> <code><a href="sparsediff-elementwise.html">sd_xexp()</a></code> <code><a href="sparsediff-elementwise.html">sd_normal_cdf()</a></code> <code><a href="sparsediff-elementwise.html">sd_entr()</a></code> <code><a href="sparsediff-elementwise.html">sd_power()</a></code> <code><a href="sparsediff-elementwise.html">sd_neg()</a></code>
 
         </dt>
         <dd>Elementwise atoms</dd>
 
         <dt>
 
-          <code><a href="sparsediff-affine.html">sparsediff-affine</a></code> <code><a href="sparsediff-affine.html">sd_add</a></code> <code><a href="sparsediff-affine.html">sd_sum</a></code> <code><a href="sparsediff-affine.html">sd_trace</a></code> <code><a href="sparsediff-affine.html">sd_transpose</a></code> <code><a href="sparsediff-affine.html">sd_diag_vec</a></code> <code><a href="sparsediff-affine.html">sd_diag_mat</a></code> <code><a href="sparsediff-affine.html">sd_upper_tri</a></code> <code><a href="sparsediff-affine.html">sd_promote</a></code> <code><a href="sparsediff-affine.html">sd_reshape</a></code> <code><a href="sparsediff-affine.html">sd_broadcast</a></code> <code><a href="sparsediff-affine.html">sd_index</a></code> <code><a href="sparsediff-affine.html">sd_hstack</a></code> <code><a href="sparsediff-affine.html">sd_vstack</a></code>
+          <code><a href="sparsediff-affine.html">sd_add()</a></code> <code><a href="sparsediff-affine.html">sd_sum()</a></code> <code><a href="sparsediff-affine.html">sd_trace()</a></code> <code><a href="sparsediff-affine.html">sd_transpose()</a></code> <code><a href="sparsediff-affine.html">sd_diag_vec()</a></code> <code><a href="sparsediff-affine.html">sd_diag_mat()</a></code> <code><a href="sparsediff-affine.html">sd_upper_tri()</a></code> <code><a href="sparsediff-affine.html">sd_promote()</a></code> <code><a href="sparsediff-affine.html">sd_reshape()</a></code> <code><a href="sparsediff-affine.html">sd_broadcast()</a></code> <code><a href="sparsediff-affine.html">sd_index()</a></code> <code><a href="sparsediff-affine.html">sd_hstack()</a></code> <code><a href="sparsediff-affine.html">sd_vstack()</a></code>
 
         </dt>
         <dd>Affine and shape atoms</dd>
 
         <dt>
 
-          <code><a href="sparsediff-bivariate.html">sparsediff-bivariate</a></code> <code><a href="sparsediff-bivariate.html">sd_elementwise_mult</a></code> <code><a href="sparsediff-bivariate.html">sd_matmul</a></code> <code><a href="sparsediff-bivariate.html">sd_quad_over_lin</a></code> <code><a href="sparsediff-bivariate.html">sd_rel_entr</a></code> <code><a href="sparsediff-bivariate.html">sd_rel_entr_first_scalar</a></code> <code><a href="sparsediff-bivariate.html">sd_rel_entr_second_scalar</a></code>
+          <code><a href="sparsediff-bivariate.html">sd_elementwise_mult()</a></code> <code><a href="sparsediff-bivariate.html">sd_matmul()</a></code> <code><a href="sparsediff-bivariate.html">sd_quad_over_lin()</a></code> <code><a href="sparsediff-bivariate.html">sd_rel_entr()</a></code> <code><a href="sparsediff-bivariate.html">sd_rel_entr_first_scalar()</a></code> <code><a href="sparsediff-bivariate.html">sd_rel_entr_second_scalar()</a></code>
 
         </dt>
         <dd>Bivariate atoms</dd>
 
         <dt>
 
-          <code><a href="sparsediff-reduction.html">sparsediff-reduction</a></code> <code><a href="sparsediff-reduction.html">sd_prod</a></code> <code><a href="sparsediff-reduction.html">sd_prod_axis_zero</a></code> <code><a href="sparsediff-reduction.html">sd_prod_axis_one</a></code>
+          <code><a href="sparsediff-reduction.html">sd_prod()</a></code> <code><a href="sparsediff-reduction.html">sd_prod_axis_zero()</a></code> <code><a href="sparsediff-reduction.html">sd_prod_axis_one()</a></code>
 
         </dt>
         <dd>Product-reduction atoms</dd>
 
         <dt>
 
-          <code><a href="sparsediff-matrix.html">sparsediff-matrix</a></code> <code><a href="sparsediff-matrix.html">sd_scalar_mult</a></code> <code><a href="sparsediff-matrix.html">sd_vector_mult</a></code> <code><a href="sparsediff-matrix.html">sd_convolve</a></code> <code><a href="sparsediff-matrix.html">sd_quad_form</a></code> <code><a href="sparsediff-matrix.html">sd_left_matmul</a></code> <code><a href="sparsediff-matrix.html">sd_right_matmul</a></code> <code><a href="sparsediff-matrix.html">sd_left_matmul_dense</a></code> <code><a href="sparsediff-matrix.html">sd_right_matmul_dense</a></code>
+          <code><a href="sparsediff-matrix.html">sd_scalar_mult()</a></code> <code><a href="sparsediff-matrix.html">sd_vector_mult()</a></code> <code><a href="sparsediff-matrix.html">sd_convolve()</a></code> <code><a href="sparsediff-matrix.html">sd_quad_form()</a></code> <code><a href="sparsediff-matrix.html">sd_quad_form_dense()</a></code> <code><a href="sparsediff-matrix.html">sd_left_matmul()</a></code> <code><a href="sparsediff-matrix.html">sd_right_matmul()</a></code> <code><a href="sparsediff-matrix.html">sd_left_matmul_dense()</a></code> <code><a href="sparsediff-matrix.html">sd_right_matmul_dense()</a></code> <code><a href="sparsediff-matrix.html">sd_left_kron()</a></code> <code><a href="sparsediff-matrix.html">sd_right_kron()</a></code>
 
         </dt>
         <dd>Parameter- and constant-matrix atoms</dd>
+
+        <dt>
+
+          <code><a href="sparsediff-getters.html">sd_get_expr_dimensions()</a></code> <code><a href="sparsediff-getters.html">sd_get_expr_size()</a></code>
+
+        </dt>
+        <dd>Expression shape</dd>
       </dl></div><div class="section level2">
       <h2 id="problems-and-sparse-derivatives">Problems and sparse derivatives<a class="anchor" aria-label="anchor" href="#problems-and-sparse-derivatives"></a></h2>
 
-      <div class="section-desc"><p>Assemble expressions into a problem and evaluate its value, gradient, sparse Jacobian and lower-triangular Lagrangian Hessian.</p></div>
+      <div class="section-desc"><p>Assemble expressions into a problem and evaluate its value, gradient, sparse Jacobian and Lagrangian Hessian, in COO form (lower-triangular Hessian) or CSR form (full Hessian).</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -116,14 +124,14 @@
 
       <dl><dt>
 
-          <code><a href="sparsediff-problem.html">sparsediff-problem</a></code> <code><a href="sparsediff-problem.html">sd_problem</a></code> <code><a href="sparsediff-problem.html">sd_register_params</a></code> <code><a href="sparsediff-problem.html">sd_update_params</a></code>
+          <code><a href="sparsediff-problem.html">sd_problem()</a></code> <code><a href="sparsediff-problem.html">sd_register_params()</a></code> <code><a href="sparsediff-problem.html">sd_update_params()</a></code>
 
         </dt>
         <dd>Assemble a differentiable problem</dd>
 
         <dt>
 
-          <code><a href="sparsediff-oracle.html">sparsediff-oracle</a></code> <code><a href="sparsediff-oracle.html">sd_init_derivatives</a></code> <code><a href="sparsediff-oracle.html">sd_init_jacobian</a></code> <code><a href="sparsediff-oracle.html">sd_init_jacobian_coo</a></code> <code><a href="sparsediff-oracle.html">sd_init_hessian_coo</a></code> <code><a href="sparsediff-oracle.html">sd_objective_forward</a></code> <code><a href="sparsediff-oracle.html">sd_constraint_forward</a></code> <code><a href="sparsediff-oracle.html">sd_gradient</a></code> <code><a href="sparsediff-oracle.html">sd_jacobian_sparsity</a></code> <code><a href="sparsediff-oracle.html">sd_jacobian_values</a></code> <code><a href="sparsediff-oracle.html">sd_hessian_sparsity</a></code> <code><a href="sparsediff-oracle.html">sd_hessian_values</a></code>
+          <code><a href="sparsediff-oracle.html">sd_init_derivatives()</a></code> <code><a href="sparsediff-oracle.html">sd_init_jacobian()</a></code> <code><a href="sparsediff-oracle.html">sd_init_jacobian_coo()</a></code> <code><a href="sparsediff-oracle.html">sd_init_hessian_coo()</a></code> <code><a href="sparsediff-oracle.html">sd_objective_forward()</a></code> <code><a href="sparsediff-oracle.html">sd_constraint_forward()</a></code> <code><a href="sparsediff-oracle.html">sd_gradient()</a></code> <code><a href="sparsediff-oracle.html">sd_jacobian_sparsity()</a></code> <code><a href="sparsediff-oracle.html">sd_jacobian_values()</a></code> <code><a href="sparsediff-oracle.html">sd_hessian_sparsity()</a></code> <code><a href="sparsediff-oracle.html">sd_hessian_values()</a></code> <code><a href="sparsediff-oracle.html">sd_jacobian()</a></code> <code><a href="sparsediff-oracle.html">sd_get_jacobian()</a></code> <code><a href="sparsediff-oracle.html">sd_init_hessian()</a></code> <code><a href="sparsediff-oracle.html">sd_hessian()</a></code> <code><a href="sparsediff-oracle.html">sd_get_hessian()</a></code>
 
         </dt>
         <dd>Sparse derivative oracle</dd>

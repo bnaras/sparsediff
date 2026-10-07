@@ -11,7 +11,7 @@ differentiated graph (and, for parameters, be updated between evaluations)."><me
 
     <a class="navbar-brand me-2" href="../index.html">sparsediff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,6 +21,7 @@ differentiated graph (and, for parameters, be updated between evaluations)."><me
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/sparsediff.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/bnaras/sparsediff/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -42,6 +43,20 @@ parameter node or a constant matrix — so the data can flow through the
 differentiated graph (and, for parameters, be updated between evaluations).</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sd_scalar_mult</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span><span class="op">)</span></span>
+<span><span class="fu">sd_vector_mult</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span><span class="op">)</span></span>
+<span><span class="fu">sd_convolve</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span><span class="op">)</span></span>
+<span><span class="fu">sd_quad_form</span><span class="op">(</span><span class="va">child</span>, <span class="va">Qp</span>, <span class="va">Qi</span>, <span class="va">Qx</span><span class="op">)</span></span>
+<span><span class="fu">sd_quad_form_dense</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span>, <span class="va">data</span><span class="op">)</span></span>
+<span><span class="fu">sd_left_matmul</span><span class="op">(</span><span class="va">child</span>, <span class="va">Ap</span>, <span class="va">Ai</span>, <span class="va">Ax</span>, <span class="va">ncol</span><span class="op">)</span></span>
+<span><span class="fu">sd_right_matmul</span><span class="op">(</span><span class="va">child</span>, <span class="va">Ap</span>, <span class="va">Ai</span>, <span class="va">Ax</span>, <span class="va">ncol</span><span class="op">)</span></span>
+<span><span class="fu">sd_left_matmul_dense</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span>, <span class="va">m</span>, <span class="va">n</span>, <span class="va">data</span><span class="op">)</span></span>
+<span><span class="fu">sd_right_matmul_dense</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span>, <span class="va">m</span>, <span class="va">n</span>, <span class="va">data</span><span class="op">)</span></span>
+<span><span class="fu">sd_left_kron</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span>, <span class="va">p</span>, <span class="va">q</span>, <span class="va">r</span>, <span class="va">s</span>, <span class="va">active_blocks</span><span class="op">)</span></span>
+<span><span class="fu">sd_right_kron</span><span class="op">(</span><span class="va">param</span>, <span class="va">child</span>, <span class="va">p</span>, <span class="va">q</span>, <span class="va">r</span>, <span class="va">s</span>, <span class="va">active_blocks</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
@@ -56,14 +71,18 @@ differentiated graph (and, for parameters, be updated between evaluations).</p>
 
 
 <dt id="arg-qp-qi-qx">Qp, Qi, Qx<a class="anchor" aria-label="anchor" href="#arg-qp-qi-qx"></a></dt>
-<dd><p>the column-pointer, row-index and value arrays of a
-compressed-sparse-column matrix \(Q\) (as in a <code>Matrix::dgCMatrix</code>:
-<code>@p</code>, <code>@i</code>, <code>@x</code>) for <code>sd_quad_form</code>'s \(x^\top Q x\).</p></dd>
+<dd><p>the row-pointer, column-index and value arrays of a
+compressed-sparse-row (CSR) matrix \(Q\) for <code>sd_quad_form</code>'s
+\(x^\top Q x\). \(Q\) must be symmetric, so its CSR arrays equal its
+compressed-sparse-column arrays and the <code>@p</code>, <code>@i</code>, <code>@x</code>
+slots of a <code>Matrix::dgCMatrix</code> holding \(Q\) can be passed directly.</p></dd>
 
 
 <dt id="arg-ap-ai-ax">Ap, Ai, Ax<a class="anchor" aria-label="anchor" href="#arg-ap-ai-ax"></a></dt>
-<dd><p>the compressed-sparse-column arrays of a constant matrix
-\(A\) for the sparse matrix products.</p></dd>
+<dd><p>the row-pointer, column-index and value arrays of a constant
+matrix \(A\) in compressed-sparse-row (CSR) form, for the sparse matrix
+products. These are the <code>@p</code>, <code>@i</code>, <code>@x</code> slots of a
+<code>Matrix::dgCMatrix</code> holding \(A^\top\), not \(A\).</p></dd>
 
 
 <dt id="arg-ncol">ncol<a class="anchor" aria-label="anchor" href="#arg-ncol"></a></dt>
@@ -74,9 +93,24 @@ compressed-sparse-column matrix \(Q\) (as in a <code>Matrix::dgCMatrix</code>:
 <dd><p>row and column dimensions of the dense constant matrix.</p></dd>
 
 
+<dt id="arg-p-q-r-s">p, q, r, s<a class="anchor" aria-label="anchor" href="#arg-p-q-r-s"></a></dt>
+<dd><p>for the Kronecker products \(Z = A \otimes B\): \(A\) is
+\(p \times q\) and \(B\) is \(r \times s\).</p></dd>
+
+
+<dt id="arg-active-blocks">active_blocks<a class="anchor" aria-label="anchor" href="#arg-active-blocks"></a></dt>
+<dd><p>for the Kronecker products, an integer vector of 0-based
+column-major indices of the nonzero entries of the variable-free operand
+(<code>param</code>); only the output rows they cover are built. For a
+parametric operand pass every index, <code>0:(length - 1)</code>.</p></dd>
+
+
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>the dense constant-matrix entries (length <code>m * n</code>,
-column-major).</p></dd>
+<dd><p>the dense constant-matrix entries in row-major order (length
+<code>m * n</code> for the matrix products, <code>n * n</code> for
+<code>sd_quad_form_dense</code>); for an R matrix <code>M</code>, pass
+<code>as.vector(t(M))</code>. Pass <code>numeric(0)</code> when the matrix comes from
+<code>param</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -97,16 +131,37 @@ column-major).</p></dd>
 <dd><p>the quadratic form \(x^\top Q x\) with sparse
     constant \(Q\).</p></dd>
 
+  <dt><code>sd_quad_form_dense</code></dt>
+<dd><p>the quadratic form \(x^\top Q x\) with a
+    dense symmetric \(n \times n\) \(Q\), where \(n\) is the length of
+    the vector <code>child</code>. Supply exactly one source: <code>param = NULL</code>
+    and <code>data</code> for a constant \(Q\) (checked for symmetry), or a
+    parameter handle of size \(n^2\) with <code>data = numeric(0)</code> for a
+    parametric \(Q\) that follows <code><a href="sparsediff-problem.html">sd_update_params</a></code>. A
+    parametric \(Q\) is not checked: keeping it symmetric is the caller's
+    responsibility.</p></dd>
+
   <dt><code>sd_left_matmul</code>, <code>sd_right_matmul</code></dt>
 <dd><p>left / right product
     with a sparse constant matrix \(A\).</p></dd>
 
   <dt><code>sd_left_matmul_dense</code>, <code>sd_right_matmul_dense</code></dt>
 <dd><p>left / right
-    product with a dense constant matrix.</p></dd>
+    product with a dense constant or parametric matrix.</p></dd>
+
+  <dt><code>sd_left_kron</code>, <code>sd_right_kron</code></dt>
+<dd><p>the Kronecker product
+    \(A \otimes B\) with the variable-free operand <code>param</code> on the
+    left (\(A\)) or on the right (\(B\)) and the variable operand
+    <code>child</code> on the other side. <code>param</code> may be a parameter or a
+    constant made with <code>sd_parameter(..., param_id = -1, ...)</code>.</p></dd>
 
 
-</dl></div>
+</dl><p>A parameter cannot be the source of the sparse products
+<code>sd_left_matmul</code> / <code>sd_right_matmul</code> (the engine does not support
+it; 'sparsediffpy' accepts the argument but the engine then aborts); use the
+dense products for a parametric matrix.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="sparsediff-leaves.html">sd_parameter</a></code>, <code><a href="sparsediff-problem.html">sd_register_params</a></code></p></div>

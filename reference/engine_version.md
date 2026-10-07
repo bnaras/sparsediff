@@ -11,11 +11,11 @@ engine_version()
 
 ## Value
 
-A character scalar, e.g. `"0.3.0"`.
+A character scalar, e.g. `"0.6.1"`.
 
 ## Examples
 
 ``` r
 engine_version()
-#> [1] "0.3.0"
+#> [1] "0.6.1"
 ```

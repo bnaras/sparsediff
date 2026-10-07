@@ -3,11 +3,11 @@
 Hessian differentiation backend used by 'CVXPY' for its Disciplined
 Nonlinear Programming (DNLP) extension. This package is the R analog of the
 'sparsediffpy' Python package and wraps the same C library (pinned at the
-upstream v0.3.0 release)."><meta property="og:description" content="R bindings to the 'SparseDiffEngine' C library — the sparse Jacobian and
+upstream v0.6.1 release)."><meta property="og:description" content="R bindings to the 'SparseDiffEngine' C library — the sparse Jacobian and
 Hessian differentiation backend used by 'CVXPY' for its Disciplined
 Nonlinear Programming (DNLP) extension. This package is the R analog of the
 'sparsediffpy' Python package and wraps the same C library (pinned at the
-upstream v0.3.0 release)."><meta property="og:image" content="https://bnaras.github.io/sparsediff/logo.png"></head><body>
+upstream v0.6.1 release)."><meta property="og:image" content="https://bnaras.github.io/sparsediff/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +15,7 @@ upstream v0.3.0 release)."><meta property="og:image" content="https://bnaras.git
 
     <a class="navbar-brand me-2" href="../index.html">sparsediff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@ upstream v0.3.0 release)."><meta property="og:image" content="https://bnaras.git
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/sparsediff.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/bnaras/sparsediff/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -45,10 +46,50 @@ upstream v0.3.0 release)."><meta property="og:image" content="https://bnaras.git
 Hessian differentiation backend used by 'CVXPY' for its Disciplined
 Nonlinear Programming (DNLP) extension. This package is the R analog of the
 'sparsediffpy' Python package and wraps the same C library (pinned at the
-upstream v0.3.0 release).</p>
+upstream v0.6.1 release).</p>
     </div>
 
 
+    <div class="section level2">
+    <h2 id="correspondence-with-sparsediffpy-">Correspondence with 'sparsediffpy'<a class="anchor" aria-label="anchor" href="#correspondence-with-sparsediffpy-"></a></h2>
+
+
+<p>Every 'sparsediffpy' 0.6.1 function has an <code>sd_*</code> counterpart that
+calls the same engine routine with the same arguments in the same order.
+Names map <code>make_&lt;atom&gt;</code> to <code>sd_&lt;atom&gt;</code> and <code>problem_&lt;step&gt;</code>
+to <code>sd_&lt;step&gt;</code> (for example <code>make_exp</code> to <code>sd_exp</code>,
+<code>problem_init_jacobian</code> to <code>sd_init_jacobian</code>), with these
+exceptions:</p><ul><li><p><code>make_multiply</code>: <code>sd_elementwise_mult</code>;
+    <code>make_param_scalar_mult</code> / <code>make_param_vector_mult</code>:
+    <code>sd_scalar_mult</code> / <code>sd_vector_mult</code>.</p></li>
+<li><p><code>make_left_matmul</code>, <code>make_right_matmul</code> and
+    <code>make_quad_form</code>, which take a format string, are split by format:
+    <code>"sparse"</code> is <code>sd_left_matmul</code>, <code>sd_right_matmul</code>,
+    <code>sd_quad_form</code>; <code>"dense"</code> is <code>sd_left_matmul_dense</code>,
+    <code>sd_right_matmul_dense</code>, <code>sd_quad_form_dense</code>.</p></li>
+<li><p><code>make_rel_entr</code>: <code>sd_rel_entr</code>, which dispatches on operand
+    size the same way; the two scalar cases are also available directly as
+    <code>sd_rel_entr_first_scalar</code> and <code>sd_rel_entr_second_scalar</code>.</p></li>
+<li><p><code>get_jacobian_sparsity_coo</code>, <code>problem_eval_jacobian_vals</code>:
+    <code>sd_jacobian_sparsity</code>, <code>sd_jacobian_values</code>;
+    <code>problem_init_hessian_coo_lower_triangular</code>,
+    <code>get_problem_hessian_sparsity_coo</code>,
+    <code>problem_eval_hessian_vals_coo</code>: <code>sd_init_hessian_coo</code>,
+    <code>sd_hessian_sparsity</code>, <code>sd_hessian_values</code>;
+    <code>get_jacobian</code>, <code>get_hessian</code>, <code>get_expr_dimensions</code>,
+    <code>get_expr_size</code>: <code>sd_get_jacobian</code>, <code>sd_get_hessian</code>,
+    <code>sd_get_expr_dimensions</code>, <code>sd_get_expr_size</code>.</p></li>
+<li><p>Arguments that are optional in 'sparsediffpy' are required here
+    (R stubs have no defaults): <code>verbose</code> of <code>sd_problem</code>,
+    <code>values</code> of <code>sd_parameter</code> (the engine requires it anyway),
+    and <code>n_vars</code> of <code>sd_hstack</code> / <code>sd_vstack</code>, which
+    'sparsediffpy' takes from the first argument.</p></li>
+<li><p>The parameter argument of the sparse matrix products is not exposed:
+    the engine aborts on it.</p></li>
+</ul><p>Indices are 0-based as in 'sparsediffpy'. CSR results are a list with
+<code>data</code>, <code>indices</code>, <code>indptr</code> and <code>shape</code>, the pieces of
+its <code>(data, indices, indptr, (m, n))</code> tuple.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Useful links:</p><ul><li><p><a href="https://bnaras.github.io/sparsediff/">https://bnaras.github.io/sparsediff/</a></p></li>
@@ -59,7 +100,8 @@ upstream v0.3.0 release).</p>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p><strong>Maintainer</strong>: Balasubramanian Narasimhan <a href="mailto:naras@stanford.edu">naras@stanford.edu</a></p>
-<p>Authors:</p><ul><li><p>Daniel Cederberg (Author of the bundled SparseDiffEngine C library) [copyright holder]</p></li>
+<p>Authors:</p><ul><li><p>Balasubramanian Narasimhan <a href="mailto:naras@stanford.edu">naras@stanford.edu</a></p></li>
+<li><p>Daniel Cederberg (Author of the bundled SparseDiffEngine C library) [copyright holder]</p></li>
 <li><p>William Zijie Zhang (Author of the bundled SparseDiffEngine C library) [copyright holder]</p></li>
 </ul></div>
 

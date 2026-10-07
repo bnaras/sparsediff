@@ -2,6 +2,17 @@
 
 Functions of two expression arguments.
 
+## Usage
+
+``` r
+sd_elementwise_mult(l, r)
+sd_matmul(x, y)
+sd_quad_over_lin(l, r)
+sd_rel_entr(l, r)
+sd_rel_entr_first_scalar(l, r)
+sd_rel_entr_second_scalar(l, r)
+```
+
 ## Arguments
 
 - l, r, x, y:
@@ -28,7 +39,10 @@ An expression handle.
 
 - `sd_rel_entr`:
 
-  elementwise relative entropy \\x \log(x / y)\\.
+  relative entropy \\x \log(x / y)\\. Like 'sparsediffpy'
+  `make_rel_entr`, it dispatches on operand size: a scalar `l` with a
+  non-scalar `r` uses `sd_rel_entr_first_scalar`, the reverse uses
+  `sd_rel_entr_second_scalar`, and otherwise it is elementwise.
 
 - `sd_rel_entr_first_scalar`, `sd_rel_entr_second_scalar`:
 

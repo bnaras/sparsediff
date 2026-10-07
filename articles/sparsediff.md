@@ -25,7 +25,7 @@ The walk-through below shows the moving parts.
 
 library(sparsediff)
 engine_version()
-#> [1] "0.3.0"
+#> [1] "0.6.1"
 ```
 
 ## Building an expression graph

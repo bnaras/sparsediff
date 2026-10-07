@@ -1,8 +1,32 @@
 # Sparse derivative oracle
 
-Initialise and evaluate the value, gradient, sparse constraint Jacobian
-and sparse lower-triangular Lagrangian Hessian of a problem built with
+Initialize and evaluate the value, gradient, sparse constraint Jacobian
+and sparse Lagrangian Hessian of a problem built with
 [`sd_problem`](https://bnaras.github.io/sparsediff/reference/sparsediff-problem.md).
+Derivatives come in two forms, matching 'sparsediffpy': coordinate (COO)
+form, with the Hessian as its lower triangle (the form CVXPY uses), and
+compressed-sparse-row (CSR) form, with the full Hessian.
+
+## Usage
+
+``` r
+sd_init_derivatives(prob)
+sd_init_jacobian(prob)
+sd_init_jacobian_coo(prob)
+sd_init_hessian_coo(prob)
+sd_objective_forward(prob, u)
+sd_constraint_forward(prob, u)
+sd_gradient(prob)
+sd_jacobian_sparsity(prob)
+sd_jacobian_values(prob)
+sd_hessian_sparsity(prob)
+sd_hessian_values(prob, obj_w, w)
+sd_jacobian(prob)
+sd_get_jacobian(prob)
+sd_init_hessian(prob)
+sd_hessian(prob, obj_w, w)
+sd_get_hessian(prob)
+```
 
 ## Arguments
 
@@ -30,9 +54,19 @@ and sparse lower-triangular Lagrangian Hessian of a problem built with
 ## Value
 
 - `sd_init_derivatives`, `sd_init_jacobian`, `sd_init_jacobian_coo`,
-  `sd_init_hessian_coo`:
+  `sd_init_hessian`, `sd_init_hessian_coo`:
 
   called for their side effect; return `NULL` invisibly.
+
+- `sd_jacobian`, `sd_get_jacobian`, `sd_hessian`, `sd_get_hessian`:
+
+  a list with the CSR arrays of the matrix: `data` (double), `indices`
+  (0-based column indices) and `indptr` (row pointers), plus
+  `shape = c(nrow, ncol)`. `sd_jacobian` evaluates the constraint
+  Jacobian (after `sd_init_jacobian` and a forward pass) and
+  `sd_hessian` the full Lagrangian Hessian \\\sigma\nabla^2 f + \sum_i
+  w_i \nabla^2 g_i\\ (after `sd_init_hessian`); the `sd_get_*` forms
+  return the matrix as last evaluated, without re-evaluating it.
 
 - `sd_objective_forward`:
 
@@ -69,7 +103,7 @@ Evaluation is ordered: a forward pass first (`sd_objective_forward` /
 Sparsity patterns are structural — fixed once the corresponding
 `sd_init_*` routine has run — so they are queried once and reused, while
 the values are recomputed at each new point. Row and column indices are
-0-based (the engine convention; a higher-level modelling layer such as
+0-based (the engine convention; a higher-level modeling layer such as
 CVXR translates them to 1-based as needed).
 
 ## See also

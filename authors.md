@@ -20,12 +20,12 @@ Source:
 
 Narasimhan B, Cederberg D, Zhang W (2026). *sparsediff: R Interface to
 the 'SparseDiffEngine' Sparse Differentiation Backend*. R package
-version 0.4.0, <https://bnaras.github.io/sparsediff/>.
+version 0.6.1, <https://bnaras.github.io/sparsediff/>.
 
     @Manual{,
       title = {sparsediff: R Interface to the 'SparseDiffEngine' Sparse Differentiation Backend},
       author = {Balasubramanian Narasimhan and Daniel Cederberg and William Zijie Zhang},
       year = {2026},
-      note = {R package version 0.4.0},
+      note = {R package version 0.6.1},
       url = {https://bnaras.github.io/sparsediff/},
     }
