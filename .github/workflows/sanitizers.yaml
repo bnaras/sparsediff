@@ -22,10 +22,12 @@ jobs:
       _R_CHECK_FORCE_SUGGESTS_: false
 
     steps:
+      # devscripts provides checkbashisms (vets configure/cleanup) and pandoc
+      # renders README.md / NEWS.md; without them R CMD check stops short.
       - name: System dependencies
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends git libuv1-dev pkg-config
+          apt-get install -y --no-install-recommends git libuv1-dev pkg-config devscripts pandoc
 
       - uses: actions/checkout@v6
         with:
@@ -48,10 +50,16 @@ jobs:
           RD CMD build --no-build-vignettes .
           RD CMD check --as-cran --no-manual --ignore-vignettes sparsediff_*.tar.gz
 
+      # Search only the check's output files, and only for the markers a
+      # report actually starts with: a bare word such as "AddressSanitizer" also
+      # occurs in the package's own text (NEWS.md), which the check copies.
       - name: Fail on sanitizer reports
         if: always()
         run: |
-          if grep -rnE "runtime error:|AddressSanitizer|LeakSanitizer" sparsediff.Rcheck; then
+          logs=$(find sparsediff.Rcheck -type f \( -name '*.Rout' -o -name '*.Rout.fail' \
+                   -o -name '00install.out' -o -name '00check.log' \))
+          echo "searched:"; echo "$logs"
+          if grep -nE "runtime error:|ERROR: AddressSanitizer|ERROR: LeakSanitizer" $logs; then
             echo "::error::sanitizer report found"
             exit 1
           fi

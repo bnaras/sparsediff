@@ -27,10 +27,12 @@ reference:
   - sparsediff-bivariate
   - sparsediff-reduction
   - sparsediff-matrix
+  - sparsediff-getters
 - title: Problems and sparse derivatives
   desc: >
     Assemble expressions into a problem and evaluate its value, gradient,
-    sparse Jacobian and lower-triangular Lagrangian Hessian.
+    sparse Jacobian and Lagrangian Hessian, in COO form (lower-triangular
+    Hessian) or CSR form (full Hessian).
   contents:
   - sparsediff-problem
   - sparsediff-oracle
